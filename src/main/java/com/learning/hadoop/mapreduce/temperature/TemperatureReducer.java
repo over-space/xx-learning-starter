@@ -32,11 +32,11 @@ public class TemperatureReducer extends Reducer<TemperatureMapKey, IntWritable, 
                 flag = true;
                 day = key.getDay();
 
-                outKey.set(String.format("%s-%02d-%02d", key.getYear(), key.getMonth(), key.getDay()));
+                outKey.set(String.format("%s-%02d-%02d,%s", key.getYear(), key.getMonth(), key.getDay(), key.getCity()));
                 outValue.set(next.get());
                 context.write(outKey, outValue);
             }else if(day != key.getDay()){
-                outKey.set(String.format("%s-%02d-%02d", key.getYear(), key.getMonth(), key.getDay()));
+                outKey.set(String.format("%s-%02d-%02d,%s", key.getYear(), key.getMonth(), key.getDay(), key.getCity()));
                 outValue.set(next.get());
                 context.write(outKey, outValue);
                 break;

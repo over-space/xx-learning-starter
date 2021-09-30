@@ -1,7 +1,10 @@
 package com.learning.hadoop.mapreduce.temperature;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
@@ -10,6 +13,9 @@ import org.apache.hadoop.util.GenericOptionsParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -29,12 +35,16 @@ public class TemperatureTop {
         GenericOptionsParser parser = new GenericOptionsParser(conf, args);
         String[] remainingArgs = parser.getRemainingArgs();
 
+        put(conf, "C:\\Users\\Lee\\Documents\\Workspace\\xx-learning-bigdata\\src\\main\\resources\\data\\city.txt", "/users/root/city.txt");
+        put(conf, "C:\\Users\\Lee\\Documents\\Workspace\\xx-learning-bigdata\\src\\main\\resources\\data\\temperature.txt", "/users/root/temperature.txt");
+
         // 让框架知道是Window异构平台执行
         conf.set("mapreduce.app-submission.cross-platform", "true");
 
         Job job = Job.getInstance(conf, "job:temperature-top");
         job.setJarByClass(TemperatureTop.class);
         job.setJar("C:\\Users\\Lee\\Documents\\Workspace\\xx-learning-bigdata\\target\\xx-learning-bigdata-1.0-SNAPSHOT.jar");
+        job.addCacheFile(new Path("/users/root/city.txt").toUri());
 
         // input
         logger.info("input path : {}", remainingArgs[0]);
@@ -69,5 +79,15 @@ public class TemperatureTop {
 
         // 执行，并输出日志
         job.waitForCompletion(true);
+    }
+
+    private static void put(Configuration conf, String source, String target) throws IOException {
+        logger.info("上传文件：{}, 存放路径：{}", source, target);
+        FileSystem fs = FileSystem.get(conf);
+        File file = new File(source);
+        BufferedInputStream input = new BufferedInputStream(new FileInputStream(file));
+        Path outfile = new Path(target);
+        FSDataOutputStream output = fs.create(outfile, true);
+        IOUtils.copyBytes(input, output, conf, true);
     }
 }

@@ -20,6 +20,8 @@ public class TemperatureMapKey implements WritableComparable<TemperatureMapKey> 
 
     private int temperature;
 
+    private String city;
+
     public int getYear() {
         return year;
     }
@@ -52,6 +54,14 @@ public class TemperatureMapKey implements WritableComparable<TemperatureMapKey> 
         this.temperature = temperature;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public int compareTo(TemperatureMapKey that) {
         // 按年月日排序
@@ -72,6 +82,7 @@ public class TemperatureMapKey implements WritableComparable<TemperatureMapKey> 
         out.writeInt(month);
         out.writeInt(day);
         out.writeInt(temperature);
+        out.writeUTF(city);
     }
 
     @Override
@@ -80,6 +91,7 @@ public class TemperatureMapKey implements WritableComparable<TemperatureMapKey> 
         this.month = in.readInt();
         this.day = in.readInt();
         this.temperature = in.readInt();
+        this.city = in.readUTF();
     }
 
     @Override
@@ -88,6 +100,7 @@ public class TemperatureMapKey implements WritableComparable<TemperatureMapKey> 
                 "year=" + year +
                 ", month=" + month +
                 ", day=" + day +
+                ", city=" + city +
                 ", temperature=" + temperature +
                 '}';
     }
