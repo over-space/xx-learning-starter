@@ -1,0 +1,16 @@
+hello word 1
+hello word 2
+hello word 3
+hello word 4
+hello word 5
+hello word 6
+hello hadoop 1
+hello hadoop 2
+hello hadoop 3
+hello hadoop 4
+hello hadoop 5
+hello hadoop 6
+hello hadoop 7
+hello hadoop 8
+hello hadoop 9
+hello hadoop 10
