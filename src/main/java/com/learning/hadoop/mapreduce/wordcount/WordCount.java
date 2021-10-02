@@ -34,7 +34,7 @@ public class WordCount {
         // 让框架知道是Window异构平台执行
         conf.set("mapreduce.app-submission.cross-platform", "true");
 
-        Job job = Job.getInstance(conf, "job:word-count");
+        Job job = Job.getInstance(conf, "job-word-count");
         job.setJarByClass(WordCount.class);
         job.setJar("C:\\Users\\Lee\\Documents\\Workspace\\xx-learning-bigdata\\target\\xx-learning-bigdata-1.0-SNAPSHOT.jar");
 
@@ -57,6 +57,8 @@ public class WordCount {
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(IntWritable.class);
         job.setReducerClass(WordCountReducer.class);
+
+        job.setNumReduceTasks(0);
 
         // 执行，并输出日志
         job.waitForCompletion(true);

@@ -26,7 +26,7 @@
     </property>
     <property>
         <name>yarn.resourcemanager.zk-address</name>
-        <value>node-03:2181,node-04:2181,node-05:2181</value>
+        <value>node-01:2181,node-02:2181,node-03:2181</value>
     </property>
 
     <property>
