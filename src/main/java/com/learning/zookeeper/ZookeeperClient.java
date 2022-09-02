@@ -26,6 +26,10 @@ public class ZookeeperClient implements Watcher {
         return new ZookeeperClient();
     }
 
+    public static ZooKeeper getDefaultZooKeeper(){
+        return getInstance().connection("192.168.200.211:2181,192.168.200.212:2181,192.168.200.213:2181/bigdata", 5000);
+    }
+
     @Override
     public void process(WatchedEvent event) {
         logger.info("触发创建ZookeeperClient#Watcher事件，stage: " + event.getState());
