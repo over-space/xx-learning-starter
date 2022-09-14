@@ -2,6 +2,7 @@ package com.learning.sharding;
 
 import com.learning.sharding.entity.OrderEntity;
 import com.learning.sharding.repository.OrderRepository;
+import com.learning.sharding.service.OrderService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +19,7 @@ import java.util.Random;
 public class ShardingTest {
 
     @Resource
-    private OrderRepository orderRepository;
+    private OrderService orderService;
 
     @Test
     void contextLoads() {
@@ -30,10 +31,10 @@ public class ShardingTest {
         for (int i = 1; i < 100; i++) {
             OrderEntity orderEntity = new OrderEntity();
             orderEntity.setId(Long.valueOf(i));
-            orderEntity.setOrderType(i);
+            orderEntity.setOrderType(i % 2);
             orderEntity.setCustomerId(i);
             orderEntity.setAmount(new Random().nextFloat() * 1000F);
-            orderRepository.save(orderEntity);
+            orderService.insert(orderEntity);
         }
     }
 }
