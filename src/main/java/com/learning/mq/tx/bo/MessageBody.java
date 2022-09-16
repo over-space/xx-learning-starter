@@ -38,6 +38,14 @@ public class MessageBody<T extends Serializable> implements Serializable {
         this.msgId = msgId;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     public T getMsg() {
         return msg;
     }

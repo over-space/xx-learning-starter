@@ -1,18 +1,16 @@
 package com.learning.mq.tx;
 
+import com.alibaba.fastjson.JSONObject;
 import com.learning.mq.tx.bo.MessageBody;
 import com.learning.mq.tx.config.KafkaCondition;
 import com.learning.mq.tx.entity.MsgRecordEntity;
 import com.learning.mq.tx.service.MsgRecordService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.ProducerListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,14 +21,14 @@ import java.util.List;
  * @author 李芳
  * @since 2022/9/14
  */
-@Service("txKafkaMessageProducer")
+@Service("kafkaTxMessageProducer")
 @Conditional(KafkaCondition.class)
-public class TxKafkaMessageProducer implements MessageProducer {
+public class KafkaTxMessageProducer implements MessageProducer {
 
-    private static final Logger logger = LogManager.getLogger(TxRocketMqMessageProducer.class);
+    private static final Logger logger = LogManager.getLogger(RocketmqTxMessageProducer.class);
 
     @Resource
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private KafkaTemplate<String, MessageBody> kafkaTemplate;
     @Resource
     private MsgRecordService msgRecordService;
 
@@ -51,28 +49,13 @@ public class TxKafkaMessageProducer implements MessageProducer {
 
         List<MsgRecordEntity> msgRecordEntityList = msgRecordService.findByIds(msgIds);
         for (MsgRecordEntity msgRecord : msgRecordEntityList) {
+
             try {
-
-                kafkaTemplate.setProducerListener(new ProducerListener<String, String>() {
-                    @Override
-                    public void onSuccess(ProducerRecord<String, String> producerRecord, RecordMetadata recordMetadata) {
-                        //发送成功一条就删一条消息，这样数据库表也不会变大
-                        msgRecord.setMsgStatus(1);
-                        msgRecordService.update(msgRecord);
-                    }
-
-                    @Override
-                    public void onError(ProducerRecord<String, String> producerRecord, RecordMetadata recordMetadata, Exception exception) {
-                        //发送失败就等待下次重试，并将消息保留在表中, 通过定时任务重试
-                        msgRecord.setMsgStatus(3);
-                        msgRecordService.update(msgRecord);
-                    }
-                });
-
+                MessageBody messageBody = JSONObject.parseObject(msgRecord.getMsgBody(), MessageBody.class);
                 if (StringUtils.isNotBlank(msgRecord.getKey())) {
-                    kafkaTemplate.send(msgRecord.getTopic(), msgRecord.getKey(), msgRecord.getMsgBody());
+                    kafkaTemplate.send(msgRecord.getTopic(), msgRecord.getKey(), messageBody);
                 } else {
-                    kafkaTemplate.send(msgRecord.getTopic(), msgRecord.getMsgBody());
+                    kafkaTemplate.send(msgRecord.getTopic(), messageBody);
                 }
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);

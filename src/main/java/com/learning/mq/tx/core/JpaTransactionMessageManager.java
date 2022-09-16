@@ -1,5 +1,6 @@
-package com.learning.mq.tx;
+package com.learning.mq.tx.core;
 
+import com.learning.mq.tx.MessageProducer;
 import org.springframework.context.annotation.Primary;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ import javax.annotation.Resource;
  */
 @Component("transactionManager")
 @Primary
-public class TxMessageManager extends JpaTransactionManager {
+public class JpaTransactionMessageManager extends JpaTransactionManager {
 
     @Resource
     private MessageProducer messageProducer;

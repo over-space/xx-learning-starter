@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  */
 @SpringBootTest
 @EnableTransactionManagement
-public class TxKafkaMessageProducerTest {
+public class KafkaTxMessageProducerTest {
 
     @Test
     void contextLoads() {

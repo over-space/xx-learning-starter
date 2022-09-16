@@ -54,7 +54,7 @@ public class MsgRecordServiceImpl implements MsgRecordService{
 
     @Override
     @Transactional
-    public void update(MsgRecordEntity msgRecordEntity) {
-        msgRecordRepository.save(msgRecordEntity);
+    public void updateMsgStatus(String msgId, MsgRecordEntity.MsgSendStatus msgSendStatus) {
+        msgRecordRepository.updateMsgStatus(msgId, msgSendStatus.getValue());
     }
 }

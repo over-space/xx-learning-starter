@@ -16,18 +16,17 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author 李芳
  * @since 2022/9/13
  */
-@Component("txRocketMqMessageProducer")
+@Component("rocketmqTxMessageProducer")
 @Conditional(RocketMqCondition.class)
-public class TxRocketMqMessageProducer implements MessageProducer{
+public class RocketmqTxMessageProducer implements MessageProducer{
 
-    private static final Logger logger = LogManager.getLogger(TxRocketMqMessageProducer.class);
+    private static final Logger logger = LogManager.getLogger(RocketmqTxMessageProducer.class);
 
 
     @Resource
@@ -61,12 +60,11 @@ public class TxRocketMqMessageProducer implements MessageProducer{
 
                 if (SendStatus.SEND_OK.equals(send.getSendStatus())) {
                     //发送成功一条就删一条消息，这样数据库表也不会变大
-                    msgRecord.setMsgStatus(1);
+                    msgRecordService.updateMsgStatus(msgRecord.getMsgId(), MsgRecordEntity.MsgSendStatus.SEND_OK);
                 } else {
                     //发送失败就等待下次重试，并将消息保留在表中, 通过定时任务重试
-                    msgRecord.setMsgStatus(3);
+                    msgRecordService.updateMsgStatus(msgRecord.getMsgId(), MsgRecordEntity.MsgSendStatus.UNSENT);
                 }
-                msgRecordService.update(msgRecord);
             }catch (Exception e){
                 logger.error(e.getMessage(), e);
             }

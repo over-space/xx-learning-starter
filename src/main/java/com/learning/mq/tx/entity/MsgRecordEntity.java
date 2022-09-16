@@ -17,6 +17,38 @@ import java.time.LocalDateTime;
 @Table(name = "t_msg_record")
 public class MsgRecordEntity implements Serializable {
 
+    public enum MsgSendStatus{
+        /**
+         * 未发送至MQ
+         */
+        UNSENT(0),
+
+        /**
+         * 发送成功
+         */
+        SEND_OK(1),
+
+        /**
+         * 消费成功
+         */
+        CONSUMED(2),
+
+        /**
+         * 消费失败
+         */
+        CONSUMED_FAILED(3);
+
+        private int value;
+
+        private MsgSendStatus(int value){
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -40,10 +72,7 @@ public class MsgRecordEntity implements Serializable {
 
     /**
      * 状态
-     * 0 ： 未发送
-     * 1 ： 已发送
-     * 2 :  已消费
-     * 3 :  失败
+     * @see MsgSendStatus
      */
     private Integer msgStatus;
 

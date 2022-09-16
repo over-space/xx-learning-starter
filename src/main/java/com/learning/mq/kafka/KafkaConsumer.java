@@ -1,5 +1,6 @@
 package com.learning.mq.kafka;
 
+import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +20,7 @@ public class KafkaConsumer {
     private static final Logger logger = LogManager.getLogger(KafkaConsumer.class);
 
 
-    @KafkaListener(id = "consumer-a", topics = "${kafka.topic.bigdata-test}", groupId = "default-consumer")
+    @KafkaListener(id = "consumer-a", topics = "${kafka.topic.bigdata-test}", groupId = "default-consumer",idIsGroup = false)
     public void consumerA(List<ConsumerRecord<String, String>> records, Acknowledgment acknowledgment){
 
         for (ConsumerRecord<String, String> record : records) {
@@ -30,10 +31,10 @@ public class KafkaConsumer {
 
     }
 
-    @KafkaListener(id = "consumer-b", topics = "${kafka.topic.bigdata-test}", groupId = "default-consumer")
-    public void consumerB(List<ConsumerRecord<String, String>> records, Acknowledgment acknowledgment){
+    @KafkaListener(id = "consumer-b", topics = "${kafka.topic.bigdata-test}", groupId = "default-consumer", idIsGroup = false)
+    public void consumerB(List<ConsumerRecord<String, String>> records, Acknowledgment acknowledgment, Consumer consumer){
         for (ConsumerRecord<String, String> record : records) {
-            logger.info("id:consumer-b, size:{}, record:{}", records.size(), record.value());
+            logger.info("id:consumer-b, groupId:{}, size:{}, record:{}", consumer.groupMetadata().groupId() ,records.size(), record.value());
         }
         acknowledgment.acknowledge();
     }

@@ -17,5 +17,5 @@ public interface MsgRecordService {
 
     List<MsgRecordEntity> findByIds(List<Long> ids);
 
-    void update(MsgRecordEntity msgRecordEntity);
+    void updateMsgStatus(String msgId, MsgRecordEntity.MsgSendStatus msgSendStatus);
 }
