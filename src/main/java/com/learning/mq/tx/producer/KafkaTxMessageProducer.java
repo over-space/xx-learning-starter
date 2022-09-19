@@ -48,19 +48,24 @@ public class KafkaTxMessageProducer implements MessageProducer {
 
             List<MsgRecordEntity> msgRecordEntityList = msgRecordService.findByIds(transactionMessageIds);
 
-            for (MsgRecordEntity msgRecord : msgRecordEntityList) {
+            for (MsgRecordEntity msgRecordEntity : msgRecordEntityList) {
                 try {
-                    MessageBody messageBody = JSONObject.parseObject(msgRecord.getMsgBody(), MessageBody.class);
-                    if (StringUtils.isNotBlank(msgRecord.getKey())) {
-                        kafkaTemplate.send(msgRecord.getTopic(), msgRecord.getKey(), messageBody);
-                    } else {
-                        kafkaTemplate.send(msgRecord.getTopic(), messageBody);
-                    }
+                    send(msgRecordEntity);
                 } catch (Exception e) {
                     logger.error(e.getMessage(), e);
                 }
             }
 
         });
+    }
+
+    @Override
+    public void send(MsgRecordEntity msgRecordEntity) {
+        MessageBody messageBody = JSONObject.parseObject(msgRecordEntity.getMsgBody(), MessageBody.class);
+        if (StringUtils.isNotBlank(msgRecordEntity.getKey())) {
+            kafkaTemplate.send(msgRecordEntity.getTopic(), msgRecordEntity.getKey(), messageBody);
+        } else {
+            kafkaTemplate.send(msgRecordEntity.getTopic(), messageBody);
+        }
     }
 }

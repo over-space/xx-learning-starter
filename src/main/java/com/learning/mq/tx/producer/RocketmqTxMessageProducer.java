@@ -51,40 +51,27 @@ public class RocketmqTxMessageProducer implements MessageProducer {
         TransactionMessageThreadLocal.foreach(transactionMessageIds -> {
 
             List<MsgRecordEntity> msgRecordEntityList = msgRecordService.findByIds(transactionMessageIds);
-            for (MsgRecordEntity msgRecord : msgRecordEntityList) {
-                try {
-
-                    SendResult send = defaultMQProducer.send(new Message(msgRecord.getTopic(), msgRecord.getTags(), msgRecord.getKey(), msgRecord.getMsgBody().getBytes()));
-
-                    if (SendStatus.SEND_OK.equals(send.getSendStatus())) {
-                        //发送成功一条就删一条消息，这样数据库表也不会变大
-                        msgRecordService.updateMsgStatus(msgRecord.getMsgId(), MsgRecordEntity.MsgSendStatus.SEND_OK);
-                    } else {
-                        //发送失败就等待下次重试，并将消息保留在表中, 通过定时任务重试
-                        msgRecordService.updateMsgStatus(msgRecord.getMsgId(), MsgRecordEntity.MsgSendStatus.UNSENT);
-                    }
-                } catch (Exception e) {
-                    logger.error(e.getMessage(), e);
-                }
+            for (MsgRecordEntity msgRecordEntity : msgRecordEntityList) {
+                send(msgRecordEntity);
             }
         });
     }
 
-    public SendResult send(String topic, Object value) {
+    @Override
+    public void send(MsgRecordEntity msgRecordEntity) {
         try {
-            return defaultMQProducer.send(new Message(topic, JSONObject.toJSONString(value).getBytes()));
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-        return null;
-    }
 
-    public SendResult send(String topic, String tags, Object value) {
-        try {
-            return defaultMQProducer.send(new Message(topic, tags, JSONObject.toJSONString(value).getBytes()));
-        } catch (Exception e) {
+            SendResult send = defaultMQProducer.send(new Message(msgRecordEntity.getTopic(), msgRecordEntity.getTags(), msgRecordEntity.getKey(), msgRecordEntity.getMsgBody().getBytes()));
+
+            if (SendStatus.SEND_OK.equals(send.getSendStatus())) {
+                //发送成功一条就删一条消息，这样数据库表也不会变大
+                msgRecordService.updateMsgStatus(msgRecordEntity.getMsgId(), MsgRecordEntity.MsgSendStatus.SEND_OK);
+            } else {
+                //发送失败就等待下次重试，并将消息保留在表中, 通过定时任务重试
+                msgRecordService.updateMsgStatus(msgRecordEntity.getMsgId(), MsgRecordEntity.MsgSendStatus.UNSENT);
+            }
+        }catch (Exception e){
             logger.error(e.getMessage(), e);
         }
-        return null;
     }
 }

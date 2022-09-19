@@ -4,6 +4,7 @@ import com.learning.spring.BService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.Resource;
@@ -15,6 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2022/9/14
  */
 @SpringBootTest
+@EnableScheduling
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
 public class KafkaTxMessageProducerTest {
@@ -42,6 +44,6 @@ public class KafkaTxMessageProducerTest {
             CompletableFuture.runAsync(() -> bService.save2());
         }
 
-        TimeUnit.SECONDS.sleep(10);
+        TimeUnit.SECONDS.sleep(60);
     }
 }

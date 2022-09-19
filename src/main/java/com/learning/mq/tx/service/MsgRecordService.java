@@ -3,6 +3,7 @@ package com.learning.mq.tx.service;
 import com.learning.mq.tx.bo.MessageBody;
 import com.learning.mq.tx.entity.MsgRecordEntity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -16,6 +17,8 @@ public interface MsgRecordService {
     MsgRecordEntity save(String topic, String tags, MessageBody msg);
 
     List<MsgRecordEntity> findByIds(List<Long> ids);
+
+    List<MsgRecordEntity> findByMsgStatus(MsgRecordEntity.MsgSendStatus msgSendStatus, LocalDateTime createdDateTime);
 
     void updateMsgStatus(String msgId, MsgRecordEntity.MsgSendStatus msgSendStatus);
 }

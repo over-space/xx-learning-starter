@@ -53,6 +53,11 @@ public class MsgRecordServiceImpl implements MsgRecordService{
     }
 
     @Override
+    public List<MsgRecordEntity> findByMsgStatus(MsgRecordEntity.MsgSendStatus msgSendStatus, LocalDateTime createdDateTime) {
+        return msgRecordRepository.findByMsgStatus(msgSendStatus.getValue(), createdDateTime);
+    }
+
+    @Override
     @Transactional
     public void updateMsgStatus(String msgId, MsgRecordEntity.MsgSendStatus msgSendStatus) {
         msgRecordRepository.updateMsgStatus(msgId, msgSendStatus.getValue());
