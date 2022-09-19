@@ -1,6 +1,7 @@
-package com.learning.mq.tx.core;
+package com.learning.mq.tx.core.jpa;
 
 import com.learning.mq.tx.producer.MessageProducer;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Primary;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ import javax.annotation.Resource;
  * @since 2022/9/13
  */
 @Component("transactionManager")
-@Primary
+@ConditionalOnProperty(name = "kafka.transaction.message.mode", havingValue = "JPA")
 public class JpaTransactionMessageManager extends JpaTransactionManager {
 
     @Resource

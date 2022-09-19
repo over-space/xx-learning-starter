@@ -3,6 +3,7 @@ package com.learning.mq.kafka;
 import com.learning.spring.BService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.Resource;
@@ -14,6 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2022/9/14
  */
 @SpringBootTest
+@EnableAspectJAutoProxy
 @EnableTransactionManagement
 public class KafkaTxMessageProducerTest {
 
@@ -36,7 +38,10 @@ public class KafkaTxMessageProducerTest {
 
     @Test
     public void test2() throws InterruptedException {
-        bService.save();
+        for (int i = 0; i < 100; i++) {
+            CompletableFuture.runAsync(() -> bService.save2());
+        }
+
         TimeUnit.SECONDS.sleep(10);
     }
 }

@@ -3,6 +3,7 @@ package com.learning.mq.tx.producer;
 import com.alibaba.fastjson.JSONObject;
 import com.learning.mq.tx.bo.MessageBody;
 import com.learning.mq.tx.config.KafkaCondition;
+import com.learning.mq.tx.core.TransactionMessageThreadLocal;
 import com.learning.mq.tx.entity.MsgRecordEntity;
 import com.learning.mq.tx.service.MsgRecordService;
 import org.apache.commons.collections4.CollectionUtils;
@@ -42,26 +43,24 @@ public class KafkaTxMessageProducer implements MessageProducer {
     @Override
     @Transactional
     public void sendMsgFromThreadLocal() {
-        List<Long> msgIds = threadLocal.get();
-        if (CollectionUtils.isEmpty(msgIds)) {
-            return;
-        }
 
-        List<MsgRecordEntity> msgRecordEntityList = msgRecordService.findByIds(msgIds);
-        for (MsgRecordEntity msgRecord : msgRecordEntityList) {
-            logger.warn("----------------{}, {}",JSONObject.toJSONString(msgIds), JSONObject.toJSONString(msgRecord));
-            try {
-                MessageBody messageBody = JSONObject.parseObject(msgRecord.getMsgBody(), MessageBody.class);
-                if (StringUtils.isNotBlank(msgRecord.getKey())) {
-                    kafkaTemplate.send(msgRecord.getTopic(), msgRecord.getKey(), messageBody);
-                } else {
-                    kafkaTemplate.send(msgRecord.getTopic(), messageBody);
+        TransactionMessageThreadLocal.foreach(transactionMessageIds -> {
+
+            List<MsgRecordEntity> msgRecordEntityList = msgRecordService.findByIds(transactionMessageIds);
+
+            for (MsgRecordEntity msgRecord : msgRecordEntityList) {
+                try {
+                    MessageBody messageBody = JSONObject.parseObject(msgRecord.getMsgBody(), MessageBody.class);
+                    if (StringUtils.isNotBlank(msgRecord.getKey())) {
+                        kafkaTemplate.send(msgRecord.getTopic(), msgRecord.getKey(), messageBody);
+                    } else {
+                        kafkaTemplate.send(msgRecord.getTopic(), messageBody);
+                    }
+                } catch (Exception e) {
+                    logger.error(e.getMessage(), e);
                 }
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e);
-            }finally {
-                msgIds.remove(msgRecord.getId());
             }
-        }
+
+        });
     }
 }

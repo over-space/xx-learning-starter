@@ -1,6 +1,7 @@
 package com.learning.mq.tx.producer;
 
 import com.learning.mq.tx.bo.MessageBody;
+import com.learning.mq.tx.core.TransactionMessageThreadLocal;
 import com.learning.mq.tx.entity.MsgRecordEntity;
 import com.learning.mq.tx.service.MsgRecordService;
 import org.springframework.core.NamedInheritableThreadLocal;
@@ -14,19 +15,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public interface MessageProducer {
 
-    ThreadLocal<List<Long>> threadLocal = new NamedInheritableThreadLocal("tx-message");
+
 
     default void sendAfterCommit(MsgRecordService msgRecordService, String topic, MessageBody messageBody){
         // 消息入库
         MsgRecordEntity msgRecordEntity = msgRecordService.save(topic, messageBody);
 
-        List<Long> msgIds = threadLocal.get();
+        List<Long> transactionMessageIds = TransactionMessageThreadLocal.getTransactionMessageIds();
 
-        msgIds = msgIds == null ? new CopyOnWriteArrayList<>() : msgIds;
+        transactionMessageIds.add(msgRecordEntity.getId());
 
-        msgIds.add(msgRecordEntity.getId());
-
-        threadLocal.set(msgIds);
     }
 
     void sendAfterCommit(String topic, MessageBody messageBody);
