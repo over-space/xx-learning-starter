@@ -48,7 +48,7 @@ public class RocketmqTxMessageProducer implements MessageProducer {
     @Override
     public void sendMsgFromThreadLocal() {
 
-        TransactionMessageThreadLocal.foreach(transactionMessageIds -> {
+        TransactionMessageThreadLocal.foreachTransactionMessage(transactionMessageIds -> {
 
             List<MsgRecordEntity> msgRecordEntityList = msgRecordService.findByIds(transactionMessageIds);
             for (MsgRecordEntity msgRecordEntity : msgRecordEntityList) {

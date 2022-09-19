@@ -23,7 +23,7 @@ public final class TransactionMessageThreadLocal {
         return transactionMessageIds;
     }
 
-    public static void foreach(Consumer<List<Long>> consumer){
+    public static void foreachTransactionMessage(Consumer<List<Long>> consumer){
         consumer.accept(getTransactionMessageIds());
         threadLocal.remove();
     }

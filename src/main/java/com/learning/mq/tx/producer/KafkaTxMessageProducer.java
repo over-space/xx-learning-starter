@@ -44,7 +44,7 @@ public class KafkaTxMessageProducer implements MessageProducer {
     @Transactional
     public void sendMsgFromThreadLocal() {
 
-        TransactionMessageThreadLocal.foreach(transactionMessageIds -> {
+        TransactionMessageThreadLocal.foreachTransactionMessage(transactionMessageIds -> {
 
             List<MsgRecordEntity> msgRecordEntityList = msgRecordService.findByIds(transactionMessageIds);
 
