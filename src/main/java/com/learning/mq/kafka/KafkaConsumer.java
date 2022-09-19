@@ -1,5 +1,7 @@
 package com.learning.mq.kafka;
 
+import com.learning.mq.tx.bo.MessageBody;
+import com.learning.mq.tx.consumer.AbstractKafkaConsumer;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.logging.log4j.LogManager;
@@ -9,32 +11,26 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
  * @author 李芳
  * @since 2022/9/14
  */
 @Component
-public class KafkaConsumer {
+public class KafkaConsumer extends AbstractKafkaConsumer {
 
     private static final Logger logger = LogManager.getLogger(KafkaConsumer.class);
 
+    private static LongAdder consumerBatchIndex = new LongAdder();
 
-    @KafkaListener(id = "consumer-a", topics = "${kafka.topic.bigdata-test}", groupId = "default-consumer",idIsGroup = false)
-    public void consumerA(List<ConsumerRecord<String, String>> records, Acknowledgment acknowledgment){
 
-        for (ConsumerRecord<String, String> record : records) {
-            logger.info("id:consumer-a, size:{}, record:{}", records.size(), record.value());
-        }
-
-        acknowledgment.acknowledge();
-
-    }
-
-    @KafkaListener(id = "consumer-b", topics = "${kafka.topic.bigdata-test}", groupId = "default-consumer", idIsGroup = false)
-    public void consumerB(List<ConsumerRecord<String, String>> records, Acknowledgment acknowledgment, Consumer consumer){
-        for (ConsumerRecord<String, String> record : records) {
-            logger.info("id:consumer-b, groupId:{}, size:{}, record:{}", consumer.groupMetadata().groupId() ,records.size(), record.value());
+    @Override
+    @KafkaListener(id = "consumer-a", topics = "${kafka.topic.bigdata-test}", groupId = "default-consumer",idIsGroup = false, concurrency = "3")
+    public void batchConsumer(List<ConsumerRecord<String, MessageBody>> records, Acknowledgment acknowledgment){
+        consumerBatchIndex.increment();
+        for (ConsumerRecord<String, MessageBody> record : records) {
+            logger.info("id:consumer-a, consumerBatchIndex:{}, size:{}, record:{}", consumerBatchIndex.intValue(), records.size(), record.value());
         }
         acknowledgment.acknowledge();
     }

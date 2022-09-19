@@ -1,12 +1,12 @@
-package com.learning.mq.tx;
+package com.learning.mq.tx.producer;
 
 import com.learning.mq.tx.bo.MessageBody;
 import com.learning.mq.tx.entity.MsgRecordEntity;
 import com.learning.mq.tx.service.MsgRecordService;
 import org.springframework.core.NamedInheritableThreadLocal;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author 李芳
@@ -22,7 +22,7 @@ public interface MessageProducer {
 
         List<Long> msgIds = threadLocal.get();
 
-        msgIds = msgIds == null ? new ArrayList<>() : msgIds;
+        msgIds = msgIds == null ? new CopyOnWriteArrayList<>() : msgIds;
 
         msgIds.add(msgRecordEntity.getId());
 

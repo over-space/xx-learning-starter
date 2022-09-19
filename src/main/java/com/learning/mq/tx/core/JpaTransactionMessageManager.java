@@ -1,6 +1,6 @@
 package com.learning.mq.tx.core;
 
-import com.learning.mq.tx.MessageProducer;
+import com.learning.mq.tx.producer.MessageProducer;
 import org.springframework.context.annotation.Primary;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.stereotype.Component;

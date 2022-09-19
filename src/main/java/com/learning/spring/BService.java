@@ -1,6 +1,6 @@
 package com.learning.spring;
 
-import com.learning.mq.tx.MessageProducer;
+import com.learning.mq.tx.producer.MessageProducer;
 import com.learning.mq.tx.bo.MessageBody;
 import com.learning.spring.entity.BEntity;
 import com.learning.spring.repository.BRepository;
@@ -30,7 +30,7 @@ public class BService {
     @Transactional
     public void save(){
         BEntity entity = new BEntity();
-        entity.setName("b_" + ThreadLocalRandom.current().nextLong());
+        entity.setName("b_" + ThreadLocalRandom.current().nextLong(0, 999999999));
         entity.setCreatedDate(LocalDateTime.now());
         bRepository.save(entity);
 

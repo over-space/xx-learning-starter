@@ -14,6 +14,11 @@
     <remote-repository>
       <option name="id" value="worktrans-central" />
       <option name="name" value="Worktrans Release Repository" />
+      <option name="url" value="http://maven.worktrans.cn/nexus/content/groups/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="worktrans-central" />
+      <option name="name" value="Worktrans Release Repository" />
       <option name="url" value="http://maven.worktrans.cn:3030/nexus/content/groups/public/" />
     </remote-repository>
     <remote-repository>

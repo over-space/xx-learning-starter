@@ -1,4 +1,4 @@
-package com.learning.mq.tx;
+package com.learning.mq.tx.producer;
 
 import com.alibaba.fastjson.JSONObject;
 import com.learning.mq.tx.config.RocketMqCondition;
@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Component("rocketmqTxMessageProducer")
 @Conditional(RocketMqCondition.class)
-public class RocketmqTxMessageProducer implements MessageProducer{
+public class RocketmqTxMessageProducer implements MessageProducer {
 
     private static final Logger logger = LogManager.getLogger(RocketmqTxMessageProducer.class);
 

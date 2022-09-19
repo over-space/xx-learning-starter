@@ -53,4 +53,13 @@ public class MessageBody<T extends Serializable> implements Serializable {
     public void setMsg(T msg) {
         this.msg = msg;
     }
+
+    @Override
+    public String toString() {
+        return "MessageBody{" +
+                "msgId='" + msgId + '\'' +
+                ", version=" + version +
+                ", msg=" + msg +
+                '}';
+    }
 }

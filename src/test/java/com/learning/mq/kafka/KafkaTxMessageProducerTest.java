@@ -27,7 +27,7 @@ public class KafkaTxMessageProducerTest {
 
     @Test
     public void test() throws InterruptedException {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             CompletableFuture.runAsync(() -> bService.save());
         }
 

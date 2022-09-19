@@ -31,7 +31,7 @@ public class KafkaProducerListener implements ProducerListener<String, MessageBo
 
     @Override
     public void onSuccess(ProducerRecord<String, MessageBody> producerRecord, RecordMetadata recordMetadata) {
-        logger.warn("消息发送成功，msgId:{}", producerRecord.value().getMsgId());
+        logger.info("消息发送成功，msgId:{}", producerRecord.value().getMsgId());
         msgRecordService.updateMsgStatus(producerRecord.value().getMsgId(), MsgRecordEntity.MsgSendStatus.SEND_OK);
     }
 }

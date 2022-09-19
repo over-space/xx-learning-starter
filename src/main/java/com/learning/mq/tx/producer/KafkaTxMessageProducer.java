@@ -1,4 +1,4 @@
-package com.learning.mq.tx;
+package com.learning.mq.tx.producer;
 
 import com.alibaba.fastjson.JSONObject;
 import com.learning.mq.tx.bo.MessageBody;
@@ -49,7 +49,7 @@ public class KafkaTxMessageProducer implements MessageProducer {
 
         List<MsgRecordEntity> msgRecordEntityList = msgRecordService.findByIds(msgIds);
         for (MsgRecordEntity msgRecord : msgRecordEntityList) {
-
+            logger.warn("----------------{}, {}",JSONObject.toJSONString(msgIds), JSONObject.toJSONString(msgRecord));
             try {
                 MessageBody messageBody = JSONObject.parseObject(msgRecord.getMsgBody(), MessageBody.class);
                 if (StringUtils.isNotBlank(msgRecord.getKey())) {
@@ -59,6 +59,8 @@ public class KafkaTxMessageProducer implements MessageProducer {
                 }
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
+            }finally {
+                msgIds.remove(msgRecord.getId());
             }
         }
     }
