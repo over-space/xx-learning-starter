@@ -21,6 +21,7 @@ public class TableShardingAlgorithmByDate implements StandardShardingAlgorithm<L
 
     @Override
     public Collection<String> doSharding(Collection<String> collection, RangeShardingValue<LocalDate> rangeShardingValue) {
+
         return null;
     }
 
