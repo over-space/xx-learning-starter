@@ -34,4 +34,11 @@ public class OrderServiceImpl implements OrderService{
         orderLogEntity.setCreatedDate(LocalDateTime.now());
         orderLogRepository.save(orderLogEntity);
     }
+
+    @Override
+    @Transactional
+    public void deleteAll() {
+        orderItemRepository.deleteAll();
+        orderRepository.deleteAll();;
+    }
 }

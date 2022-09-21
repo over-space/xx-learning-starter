@@ -26,9 +26,13 @@ public class ShardingSphereTest {
     void contextLoads() {
     }
 
+    @Test
+    public void testDelete() {
+        orderService.deleteAll();
+    }
 
     @Test
-    public void test() {
+    public void testSave() {
         for (int i = 1; i <= 100; i++) {
             OrderEntity orderEntity = new OrderEntity();
             // orderEntity.setId(Long.valueOf(i));
