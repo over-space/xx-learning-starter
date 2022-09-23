@@ -20,6 +20,8 @@ public class OrderLogEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private Integer orderType;
+
     private LocalDateTime createdDate;
 
     public Long getId() {
@@ -28,6 +30,14 @@ public class OrderLogEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(Integer orderType) {
+        this.orderType = orderType;
     }
 
     public LocalDateTime getCreatedDate() {

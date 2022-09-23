@@ -1,6 +1,5 @@
 package com.learning.sharding.repository;
 
-import com.learning.sharding.entity.OrderItemEntity;
 import com.learning.sharding.entity.OrderLogEntity;
 import org.springframework.data.repository.CrudRepository;
 

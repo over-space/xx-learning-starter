@@ -30,9 +30,10 @@ public class OrderServiceImpl implements OrderService{
         orderItemEntity.setOrderId(orderEntity.getId());
         orderItemRepository.save(orderItemEntity);
 
-        OrderLogEntity orderLogEntity = new OrderLogEntity();
-        orderLogEntity.setCreatedDate(LocalDateTime.now());
-        orderLogRepository.save(orderLogEntity);
+        // OrderLogEntity orderLogEntity = new OrderLogEntity();
+        // orderLogEntity.setOrderType(1);
+        // orderLogEntity.setCreatedDate(LocalDateTime.now());
+        // orderLogRepository.save(orderLogEntity);
     }
 
     @Override
@@ -40,5 +41,11 @@ public class OrderServiceImpl implements OrderService{
     public void deleteAll() {
         orderItemRepository.deleteAll();
         orderRepository.deleteAll();;
+    }
+
+    @Override
+    @Transactional
+    public void saveOrderLog(OrderLogEntity orderLogEntity) {
+        orderLogRepository.save(orderLogEntity);
     }
 }
