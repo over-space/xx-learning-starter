@@ -1,8 +1,10 @@
 package com.learning.sharding;
 
+import com.learning.BaseTest;
 import com.learning.sharding.entity.OrderEntity;
 import com.learning.sharding.entity.OrderItemEntity;
 import com.learning.sharding.entity.OrderLogEntity;
+import com.learning.sharding.entity.OrderTypeEntity;
 import com.learning.sharding.service.OrderService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +15,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author 李芳
@@ -21,7 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 @SpringBootTest(classes = ShardingApplication.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @Profile("sharding")
-public class ShardingSphereTest {
+public class ShardingSphereTest extends BaseTest {
 
     @Resource
     private OrderService orderService;
@@ -54,13 +55,32 @@ public class ShardingSphereTest {
     }
 
     @Test
-    public void testSave2() {
+    public void testSaveOrderLog() {
         for (int i = 1; i <= 100; i++) {
             OrderLogEntity orderLogEntity = new OrderLogEntity();
-            orderLogEntity.setOrderType(1);
+            orderLogEntity.setOrderType(i);
             // orderLogEntity.setCreatedDate(LocalDateTime.of(LocalDate.of(ThreadLocalRandom.current().nextInt(1949, 2030), ThreadLocalRandom.current().nextInt(1, 12), ThreadLocalRandom.current().nextInt(1, 28)), LocalTime.MIN));
             orderLogEntity.setCreatedDate(LocalDateTime.of(LocalDate.of(2022, 9, 1), LocalTime.MIN));
             orderService.saveOrderLog(orderLogEntity);
+        }
+    }
+
+    @Test
+    public void testFindOrderLogList() {
+        orderService.findOrderLogList();
+    }
+
+    @Test
+    public void testDeleteAllOrderLog() {
+        orderService.deleteAllOrderLog();
+    }
+
+    @Test
+    public void testBroadcastTables() {
+        for (int i = 1; i <= 100; i++) {
+            OrderTypeEntity orderTypeEntity = new OrderTypeEntity();
+            orderTypeEntity.setOrderType(i);
+            orderService.saveOrderType(orderTypeEntity);
         }
     }
 }
