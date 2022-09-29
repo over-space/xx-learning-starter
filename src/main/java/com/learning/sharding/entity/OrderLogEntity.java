@@ -22,6 +22,8 @@ public class OrderLogEntity implements Serializable {
 
     private Integer orderType;
 
+    private Long orderId;
+
     private LocalDateTime createdDate;
 
     public Long getId() {
@@ -38,6 +40,14 @@ public class OrderLogEntity implements Serializable {
 
     public void setOrderType(Integer orderType) {
         this.orderType = orderType;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     public LocalDateTime getCreatedDate() {

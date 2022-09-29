@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @EnableJpaRepositories
 @SpringBootApplication(scanBasePackages = "com.learning.sharding")
-@Profile("sharding")
+@Profile("sharding-readwrite")
 public class ShardingApplication {
 
     public static void main(String[] args) {
