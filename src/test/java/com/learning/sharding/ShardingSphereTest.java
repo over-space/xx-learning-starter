@@ -67,7 +67,9 @@ public class ShardingSphereTest extends BaseTest {
 
     @Test
     public void testFindOrderLogList() {
-        orderService.findOrderLogList();
+        for (int i = 0; i < 10; i++) {
+            orderService.findOrderLogList();
+        }
     }
 
     @Test
