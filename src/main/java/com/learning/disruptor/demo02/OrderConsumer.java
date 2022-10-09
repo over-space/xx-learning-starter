@@ -1,20 +1,22 @@
 package com.learning.disruptor.demo02;
 
-import com.lmax.disruptor.EventHandler;
+import com.learning.disruptor.AbstractMessageConsumer;
 
-import org.apache.log4j.spi.LoggerFactory;
 import org.slf4j.Logger;
 
-public class OrderConsumer implements EventHandler<OrderEvent>{
+public class OrderConsumer extends AbstractMessageConsumer<OrderEvent> {
 
     private static Logger logger = org.slf4j.LoggerFactory.getLogger(OrderConsumer.class);
-    
-    
+
+    public OrderConsumer(String consumerName) {
+        super(consumerName);
+    }
+
     @Override
     public void onEvent(OrderEvent event, long sequence, boolean endOfBatch) throws Exception {
-    
-        Thread.sleep(50);
+        super.onEvent(event, sequence, endOfBatch);
 
-        logger.info("sequence: {}, msg : {}, endOfBatch: {}", sequence, event.getMessage(), endOfBatch);
+        // 业务处理。
+        Thread.sleep(100);
     }
 }

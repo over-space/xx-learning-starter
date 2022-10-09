@@ -1,5 +1,6 @@
 package com.learning.disruptor;
 
+import com.learning.BaseTest;
 import com.learning.disruptor.demo02.MessageProducer;
 import com.learning.disruptor.demo02.OrderConsumer;
 import com.learning.disruptor.demo02.OrderEvent;
@@ -7,30 +8,33 @@ import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.IntStream;
+
 /**
  * @author lifang
  * @since 3/28/2022
  */
-public class DisruptorTest {
+public class DisruptorTest extends BaseTest {
 
 
     @Test
     void testDisruptor(){
 
-        MessageProducer.publish(new OrderEvent(), Lists.newArrayList(new OrderConsumer(), new OrderConsumer()), (ringBuffer -> {
+        MessageProducer.publish(new OrderEvent(), Lists.newArrayList(new OrderConsumer("consumer-1"), new OrderConsumer("consumer-2")), (ringBuffer -> {
 
-            for (int i = 0; i < 100; i++) {
+            IntStream.range(1, 500).parallel().forEach(index -> {
                 long seq = ringBuffer.next();
 
                 OrderEvent orderEvent = (OrderEvent) ringBuffer.get(seq);
 
-                orderEvent.setMessage("hello disruptor, " + i);
+                orderEvent.setMessage("hello disruptor, index:" + index);
 
                 ringBuffer.publish(seq);
-            }
+                logger.info("----------------------------------------------------- index: " + index + ", seq: " + seq);
+            });
 
         }));
-
     }
 
 }

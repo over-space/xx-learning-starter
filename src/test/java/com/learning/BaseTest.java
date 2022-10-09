@@ -5,13 +5,15 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author 李芳
  * @since 2022/9/21
  */
 public abstract class BaseTest {
 
-    private static final Logger logger = LogManager.getLogger(BaseTest.class);
+    protected static final Logger logger = LogManager.getLogger(BaseTest.class);
 
 
     @BeforeAll
@@ -28,4 +30,11 @@ public abstract class BaseTest {
         logger.info("================================================================================================");
     }
 
+    protected static void sleep(int seconds){
+        try {
+            TimeUnit.SECONDS.sleep(seconds);
+        } catch (InterruptedException e) {
+            logger.error(e.getMessage(), e);
+        }
+    }
 }
