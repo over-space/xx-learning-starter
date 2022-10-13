@@ -7,13 +7,16 @@ import com.learning.mq.tx.core.TransactionMessageThreadLocal;
 import com.learning.mq.tx.entity.MsgRecordEntity;
 import com.learning.mq.tx.service.MsgRecordService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.concurrent.ListenableFuture;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -48,24 +51,25 @@ public class KafkaTxMessageProducer implements MessageProducer {
 
             List<MsgRecordEntity> msgRecordEntityList = msgRecordService.findByIds(transactionMessageIds);
 
-            for (MsgRecordEntity msgRecordEntity : msgRecordEntityList) {
-                try {
-                    send(msgRecordEntity);
-                } catch (Exception e) {
-                    logger.error(e.getMessage(), e);
-                }
-            }
-
+            msgRecordEntityList.stream().forEach(this::send);
         });
     }
 
     @Override
     public void send(MsgRecordEntity msgRecordEntity) {
         MessageBody messageBody = JSONObject.parseObject(msgRecordEntity.getMsgBody(), MessageBody.class);
-        if (StringUtils.isNotBlank(msgRecordEntity.getKey())) {
-            kafkaTemplate.send(msgRecordEntity.getTopic(), msgRecordEntity.getKey(), messageBody);
-        } else {
-            kafkaTemplate.send(msgRecordEntity.getTopic(), messageBody);
+
+        ProducerRecord producerRecord = StringUtils.isNotBlank(msgRecordEntity.getKey())
+                ? new ProducerRecord<>(msgRecordEntity.getTopic(), msgRecordEntity.getKey(), messageBody)
+                : new ProducerRecord<>(msgRecordEntity.getTopic(), messageBody);
+
+        if(BooleanUtils.isTrue(messageBody.isTransaction())){
+            kafkaTemplate.executeInTransaction(kafkaOperations -> {
+                kafkaOperations.execute(producer -> producer.send(producerRecord));
+                return true;
+            });
+        }else {
+            kafkaTemplate.send(producerRecord);
         }
     }
 }

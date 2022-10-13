@@ -10,6 +10,8 @@ public class MessageBody<T extends Serializable> implements Serializable {
 
     private String msgId;
 
+    private Boolean isTransaction;
+
     private Integer version;
 
     private T msg;
@@ -44,6 +46,14 @@ public class MessageBody<T extends Serializable> implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public Boolean isTransaction() {
+        return isTransaction;
+    }
+
+    public void setTransaction(Boolean transaction) {
+        isTransaction = transaction;
     }
 
     public T getMsg() {
