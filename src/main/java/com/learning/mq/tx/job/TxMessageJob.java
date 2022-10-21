@@ -22,13 +22,13 @@ import java.util.List;
  * @since 2022/9/19
  */
 @Component
-public class MessageCompensationJob {
+public class TxMessageJob {
 
-    private static final Logger logger = LogManager.getLogger(MessageCompensationJob.class);
+    private static final Logger logger = LogManager.getLogger(TxMessageJob.class);
 
     @Resource
     private MsgRecordService msgRecordService;
-    @Resource
+    @Resource()
     private MessageProducer messageProducer;
 
     @Scheduled(cron = "0/15 * * * * ?")

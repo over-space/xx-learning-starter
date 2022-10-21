@@ -15,7 +15,7 @@ public class AdviceService {
     private static final Logger logger = LogManager.getLogger(AdviceService.class);
 
 
-    @TransactionalMessage
+    @Advice
     public void test(){
         logger.info("=====================================");
     }

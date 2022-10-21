@@ -35,11 +35,6 @@ public abstract class BaseTest {
         logger.info("================================================================================================");
     }
 
-    @Test
-    protected void test() throws Exception{
-
-    }
-
     protected <T> CompletableFuture runAsync(Supplier<T> supplier){
         return CompletableFuture.supplyAsync(() -> {
             return supplier.get();

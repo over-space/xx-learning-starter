@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 @EnableScheduling
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
-public class KafkaTransactionMessageProducerTest {
+public class KafkaTransactionDisruptorMessageProducerTest {
 
     @Test
     void contextLoads() {

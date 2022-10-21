@@ -12,6 +12,8 @@ public class RocketMqCondition implements Condition {
 
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        return context.getEnvironment().getProperty("spring.profiles.include").contains("rocketmq");
+        return context.getEnvironment() != null
+                && context.getEnvironment().getProperty("spring.profiles.include") != null
+                && context.getEnvironment().getProperty("spring.profiles.include").contains("rocketmq");
     }
 }

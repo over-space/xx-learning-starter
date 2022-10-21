@@ -23,11 +23,6 @@ public class BService {
 
     @Resource
     private BRepository bRepository;
-    @Resource
-    private MessageProducer messageProducer;
-
-    @Value("${kafka.topic.bigdata-test}")
-    private String topic;
 
     @Transactional
     public void save(){
@@ -35,9 +30,6 @@ public class BService {
         entity.setName("b_" + ThreadLocalRandom.current().nextLong(0, 999999999));
         entity.setCreatedDate(LocalDateTime.now());
         bRepository.save(entity);
-
-        MessageBody messageBody = new MessageBody("b_" + entity.getId(), entity);
-        messageProducer.sendAfterCommit(topic, messageBody);
     }
 
     @TransactionalMessage
@@ -46,8 +38,5 @@ public class BService {
         entity.setName("b_" + ThreadLocalRandom.current().nextLong(0, 999999999));
         entity.setCreatedDate(LocalDateTime.now());
         bRepository.save(entity);
-
-        MessageBody messageBody = new MessageBody("b_" + entity.getId(), entity);
-        messageProducer.sendAfterCommit(topic, messageBody);
     }
 }

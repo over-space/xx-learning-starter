@@ -1,14 +1,11 @@
-package com.learning.disruptor.demo02;
+package com.learning.disruptor;
 
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.lmax.disruptor.EventFactory;
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.RingBuffer;
-import com.lmax.disruptor.WaitStrategy;
-import com.lmax.disruptor.YieldingWaitStrategy;
 import com.lmax.disruptor.dsl.Disruptor;
-import com.lmax.disruptor.dsl.ProducerType;
 
 import java.util.List;
 import java.util.concurrent.ThreadFactory;
@@ -17,7 +14,7 @@ import java.util.function.Consumer;
 /**
  *
  */
-public class MessageProducer<T extends EventFactory, K extends EventHandler> {
+public class DisruptorMessageProducer<T extends EventFactory, K extends EventHandler> {
 
 
     public static <T extends EventFactory, K extends EventHandler> void publish(T event, K eventHandler, Consumer<RingBuffer> consumer) {

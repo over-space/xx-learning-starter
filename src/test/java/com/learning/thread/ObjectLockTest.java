@@ -1,7 +1,7 @@
 package com.learning.thread;
 
 import com.learning.BaseTest;
-import jdk.internal.misc.Unsafe;
+// import jdk.internal.misc.Unsafe;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
@@ -20,26 +20,25 @@ public class ObjectLockTest extends BaseTest {
 
     @Test
     protected void test() throws Exception {
-
-        Field f = Unsafe.class.getDeclaredField("theUnsafe");
-        f.setAccessible(true);
-        Unsafe unsafe = (Unsafe) f.get(null);
-
-        long markword1 = unsafe.getInt(lock, 0L);
-
-        logger.info("object is locked : {}", markword1);
-
-        for (int i = 0; i < 10; i++) {
-            new Thread(() -> {
-                synchronized (lock){
-                    long markword2 = unsafe.getInt(lock, 0L);
-                    logger.info("object is locked : {}", markword2);
-                }
-            }).start();
-        }
-
-        long markword4= unsafe.getInt(lock, 0L);
-        logger.info("object is locked : {}", markword4);
-        sleep(8);
+        // Field f = Unsafe.class.getDeclaredField("theUnsafe");
+        // f.setAccessible(true);
+        // Unsafe unsafe = (Unsafe) f.get(null);
+        //
+        // long markword1 = unsafe.getInt(lock, 0L);
+        //
+        // logger.info("object is locked : {}", markword1);
+        //
+        // for (int i = 0; i < 10; i++) {
+        //     new Thread(() -> {
+        //         synchronized (lock){
+        //             long markword2 = unsafe.getInt(lock, 0L);
+        //             logger.info("object is locked : {}", markword2);
+        //         }
+        //     }).start();
+        // }
+        //
+        // long markword4= unsafe.getInt(lock, 0L);
+        // logger.info("object is locked : {}", markword4);
+        // sleep(8);
     }
 }

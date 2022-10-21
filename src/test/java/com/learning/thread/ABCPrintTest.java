@@ -20,7 +20,6 @@ public class ABCPrintTest extends BaseTest {
 
 
     @Test
-    @Override
     protected void test() {
         runAsync(() -> {
             try {
