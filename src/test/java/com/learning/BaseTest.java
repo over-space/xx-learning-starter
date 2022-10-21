@@ -4,8 +4,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * @author 李芳
@@ -28,6 +33,21 @@ public abstract class BaseTest {
         logger.info("");
         logger.info("-------------------------------------测试方法执行完成---------------------------------------------");
         logger.info("================================================================================================");
+    }
+
+    @Test
+    protected void test() throws Exception{
+
+    }
+
+    protected <T> CompletableFuture runAsync(Supplier<T> supplier){
+        return CompletableFuture.supplyAsync(() -> {
+            return supplier.get();
+        });
+    }
+
+    protected void print(String msg){
+        logger.info("input : {}", msg);
     }
 
     protected static void sleep(int seconds){
