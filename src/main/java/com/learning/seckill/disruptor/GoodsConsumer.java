@@ -1,8 +1,7 @@
 package com.learning.seckill.disruptor;
 
 
-import com.learning.disruptor.AbstractMessageConsumer;
-import com.lmax.disruptor.EventHandler;
+import com.learning.basic.disruptor.AbstractMessageConsumer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

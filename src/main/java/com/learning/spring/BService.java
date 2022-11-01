@@ -1,13 +1,9 @@
 package com.learning.spring;
 
-import com.learning.mq.tx.core.aop.annontion.TransactionalMessage;
-import com.learning.mq.tx.producer.MessageProducer;
-import com.learning.mq.tx.bo.MessageBody;
+import com.learning.middleware.mq.tx.core.aop.annontion.TransactionalMessage;
 import com.learning.spring.entity.BEntity;
 import com.learning.spring.repository.BRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;

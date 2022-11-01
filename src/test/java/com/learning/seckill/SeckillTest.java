@@ -2,7 +2,7 @@ package com.learning.seckill;
 
 import com.google.common.collect.Lists;
 import com.learning.BaseTest;
-import com.learning.disruptor.DisruptorMessageProducer;
+import com.learning.basic.disruptor.DisruptorMessageProducer;
 import com.learning.seckill.disruptor.GoodsConsumer;
 import com.learning.seckill.disruptor.GoodsEvent;
 import com.learning.seckill.service.GoodsService;
