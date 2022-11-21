@@ -8,7 +8,7 @@
     <Appenders>
 
         <!-- 输出到控制台，仅在本地开发环境使用 -->
-        <Console name="Console" target="SYSTEM_OUT">
+        <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="${PATTERN}"/>
         </Console>
 
@@ -22,6 +22,11 @@
         <!--        <SizeBasedTriggeringPolicy size="1 GB"/>-->
         <!--    </Policies>-->
         <!--</RollingFile>-->
+
+        <Kafka name="kafka-logger" topic="topic-logger" enable="true">
+            <Property name="bootstrap.servers">localhost:9091</Property>
+            <PatternLayout pattern="${PATTERN}"/>
+        </Kafka>
 
     </Appenders>
 
@@ -37,9 +42,12 @@
         <Root level="trace">
             <!--这里需要区分下环境（配合maven profile之类的）-->
             <!-- 开发环境使用Console Appender，生产环境使用File Appender -->
-            <AppenderRef ref="Console"/>
+            <AppenderRef ref="console"/>
             <!--<AppenderRef ref="File"/>-->
         </Root>
 
+        <Root level="info">
+            <AppenderRef ref="kafka-logger" />
+        </Root>
     </Loggers>
 </Configuration>

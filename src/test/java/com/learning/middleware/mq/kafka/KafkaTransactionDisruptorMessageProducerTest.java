@@ -1,4 +1,4 @@
-package com.learning.middleware.kafka;
+package com.learning.middleware.mq.kafka;
 
 import com.learning.spring.BService;
 import org.junit.jupiter.api.Test;
