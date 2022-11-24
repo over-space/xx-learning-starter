@@ -27,18 +27,20 @@ public class RocketmqTest extends BaseTest {
 
     private static final Logger logger = LogManager.getLogger(RocketmqTest.class);
 
+    private static final String NAME_SRV_ADDR = "192.168.137.212:9876";
+
     @Test
     public void testProducer() throws Exception {
         DefaultMQProducer producer = new DefaultMQProducer("test-producer01");
-        producer.setNamesrvAddr("192.168.137.212:9876");
+        producer.setNamesrvAddr(NAME_SRV_ADDR);
         producer.start();
 
         for (int i = 0; i < 10; i++) {
             Message message;
             if(i % 2 == 0){
-                message = new Message("wula", "tag-a", "abc_" + i, ("hello rocketmq " + i).getBytes());
+                message = new Message("wula", "tag-a", "abc_" + i, ("hello rocketmq0 " + i).getBytes());
             }else{
-                message = new Message("wula", "tag-b", "abc_" + i, ("hello rocketmq " + i).getBytes());
+                message = new Message("wula", "tag-b", "abc_" + i, ("hello rocketmq1 " + i).getBytes());
             }
             message.setWaitStoreMsgOK(true);
 
@@ -46,14 +48,16 @@ public class RocketmqTest extends BaseTest {
 
             logger.info("SendResult : {}", send);
         }
+
+        sleep(5);
     }
 
     @Test
     public void testConsumer() throws Exception {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("test-consumer01");
-        consumer.setNamesrvAddr("192.168.137.212:9876");
+        consumer.setNamesrvAddr(NAME_SRV_ADDR);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
-        consumer.subscribe("wula","tag-a");
+        consumer.subscribe("wula","*");
 
 
         // 并行
