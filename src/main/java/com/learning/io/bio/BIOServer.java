@@ -57,6 +57,8 @@ public class BIOServer {
             writer.write("连接成功！\n");
             writer.flush();
             while (true) {
+
+                // 接收客户端消息。
                 String str = reader.readLine();
                 logger.info("收到客户端信息：{}", str);
 
@@ -67,6 +69,7 @@ public class BIOServer {
                     break;
                 }
 
+                // 将消息发送回客户端。
                 writer.write("已经收到：" + str + "\n");
                 writer.flush();
             }

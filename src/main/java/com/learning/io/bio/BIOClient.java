@@ -45,6 +45,7 @@ public class BIOClient {
             writer.newLine();
             writer.flush();
 
+            // 接收客户端返回消息。
             String resp = reader.readLine();
             logger.info("response: {}", resp);
 
