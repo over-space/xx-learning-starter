@@ -50,6 +50,10 @@ public abstract class BaseTest {
         }, threadPoolExecutor);
     }
 
+    protected static void printLine(){
+        logger.info("************************************************************************************************");
+    }
+
     protected void print(String msg){
         logger.info("input : {}", msg);
     }
