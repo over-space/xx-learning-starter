@@ -73,22 +73,23 @@ public class NIOSingleThread002 {
             try {
                 client.write(buffer);
                 logger.info("收到client数据：{}", new String(buffer.array()));
+                client.write(ByteBuffer.wrap("------------------------\n".getBytes()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        buffer.clear();
-        key.cancel();
-        try {
-            client.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        buffer.clear();
+//        key.cancel();
+//        try {
+//            client.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private static void readHandler(SelectionKey key) {
