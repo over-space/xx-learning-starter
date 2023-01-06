@@ -1,8 +1,7 @@
 package com.learning.basic.aop;
 
-import com.learning.basic.BaseApplication;
 import com.learning.BaseTest;
-import com.learning.basic.aop.AdviceService;
+import com.learning.basic.BaseApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

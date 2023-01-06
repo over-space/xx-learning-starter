@@ -162,15 +162,15 @@ public class NettyTest extends BaseTest {
 
         Bootstrap bootstrap = new Bootstrap();
         Channel client = bootstrap.group(group)
-                .channel(NioSocketChannel.class)
-                .handler(new ChannelInitializer<SocketChannel>() {
-                    @Override
-                    protected void initChannel(SocketChannel client) throws Exception {
-                        client.pipeline().addLast(new MyNettyInHandler());
-                    }
-                }).connect(new InetSocketAddress("127.0.0.1", 9090))
-                .sync()
-                .channel();
+            .channel(NioSocketChannel.class)
+            .handler(new ChannelInitializer<SocketChannel>() {
+                @Override
+                protected void initChannel(SocketChannel client) throws Exception {
+                    client.pipeline().addLast(new MyNettyInHandler());
+                }
+            }).connect(new InetSocketAddress("127.0.0.1", 9090))
+            .sync()
+            .channel();
 
         ByteBuf byteBuf = Unpooled.copiedBuffer("hello netty server......\n".getBytes());
         ChannelFuture channelFuture = client.writeAndFlush(byteBuf);
@@ -186,19 +186,61 @@ public class NettyTest extends BaseTest {
         ServerBootstrap bootstrap = new ServerBootstrap();
 
         Channel server = bootstrap.group(group, group)
-                .channel(NioServerSocketChannel.class)
-                .childHandler(new ChannelInitializer<SocketChannel>() {
-                    @Override
-                    protected void initChannel(SocketChannel client) throws Exception {
-                        client.pipeline().addLast(new MyNettyInHandler());
-                    }
-                }).bind(9090)
-                .sync()
-                .channel();
+            .channel(NioServerSocketChannel.class)
+            .childHandler(new ChannelInitializer<SocketChannel>() {
+                @Override
+                protected void initChannel(SocketChannel client) throws Exception {
+                    client.pipeline().addLast(new MyNettyInHandler());
+                }
+            }).bind(9090)
+            .sync()
+            .channel();
 
         server.closeFuture().sync();
     }
 
+    @Test
+    void testNettyClientBootstrap() throws InterruptedException {
+        NioEventLoopGroup group = new NioEventLoopGroup(1);
+
+        Bootstrap bootstrap = new Bootstrap();
+        Channel client = bootstrap.group(group)
+            .channel(NioSocketChannel.class)
+            .handler(new ChannelInitializer<NioSocketChannel>() {
+                @Override
+                protected void initChannel(NioSocketChannel client) throws Exception {
+                    // 设置hander,接收server信息
+                    logger.info("netty client : 接收服务端消息.....");
+                    client.pipeline().addLast(new ClientResponse());
+                }
+            }).connect(new InetSocketAddress("127.0.0.1", 9090))
+            .sync()
+            .channel();
+
+        ByteBuf byteBuf = ByteBufAllocator.DEFAULT.directBuffer(32, 512);
+        byteBuf.writeBytes("hello netty server".getBytes());
+        client.writeAndFlush(byteBuf);
+
+        client.closeFuture().sync();
+    }
+
+    @Test
+    void testNettyServerBootstrap() throws InterruptedException {
+        NioEventLoopGroup group = new NioEventLoopGroup(1);
+        ServerBootstrap bootstrap = new ServerBootstrap();
+        Channel server = bootstrap.group(group, group)
+            .channel(NioServerSocketChannel.class)
+            .childHandler(new ChannelInitializer<SocketChannel>() {
+                @Override
+                protected void initChannel(SocketChannel client) throws Exception {
+                    logger.info("netty server : 接收客户端消息.....");
+                    client.pipeline().addLast(new ServerResponse());
+                }
+            }).bind(9090)
+            .sync()
+            .channel();
+        server.closeFuture().sync();
+    }
 
     private void printByteBuffer(ByteBuffer buffer) {
         logger.info("position: {}", buffer.position());
@@ -248,6 +290,7 @@ public class NettyTest extends BaseTest {
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
             // netty accept之后，获取client
+            logger.info("msg objType: {}", msg);
             SocketChannel client = (SocketChannel) msg;
 
             logger.info("client : {}", client.remoteAddress());
@@ -308,6 +351,59 @@ public class NettyTest extends BaseTest {
 
             // 将数据写回给服务端
             ctx.writeAndFlush(byteBuf);
+        }
+    }
+
+    class ClientResponse extends ChannelInboundHandlerAdapter {
+
+        private final Logger logger = LogManager.getLogger(MyNettyInHandler.class);
+
+        @Override
+        public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+            logger.info("***** client registered......");
+        }
+
+        @Override
+        public void channelActive(ChannelHandlerContext ctx) throws Exception {
+            logger.info("****** client active......");
+        }
+
+        @Override
+        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+            ByteBuf byteBuf = (ByteBuf) msg;
+            // CharSequence charSequence = byteBuf.readCharSequence(byteBuf.readableBytes(), CharsetUtil.UTF_8);
+            CharSequence charSequence = byteBuf.getCharSequence(0, byteBuf.readableBytes(), CharsetUtil.UTF_8);
+            logger.info("收到服务内容：{}", charSequence);
+
+            // 将数据写回给服务端
+            ctx.writeAndFlush(byteBuf);
+        }
+    }
+
+    class ServerResponse extends ChannelInboundHandlerAdapter {
+
+        private final Logger logger = LogManager.getLogger(MyNettyInHandler.class);
+
+        @Override
+        public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+            logger.info("***** server registered......");
+        }
+
+        @Override
+        public void channelActive(ChannelHandlerContext ctx) throws Exception {
+            logger.info("****** server active......");
+        }
+
+        @Override
+        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+            ByteBuf byteBuf = (ByteBuf) msg;
+            // CharSequence charSequence = byteBuf.readCharSequence(byteBuf.readableBytes(), CharsetUtil.UTF_8);
+            CharSequence charSequence = byteBuf.getCharSequence(0, byteBuf.readableBytes(), CharsetUtil.UTF_8);
+            logger.info("收到服务内容：{}", charSequence);
+            logger.info("channel : {}", ctx.channel().getClass());
+
+            // 将内容写回给客户端
+            // ctx.channel().writeAndFlush(byteBuf);
         }
     }
 }

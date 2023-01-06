@@ -7,6 +7,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serializable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -20,7 +21,7 @@ import java.util.function.Supplier;
  * @author 李芳
  * @since 2022/9/21
  */
-public abstract class BaseTest {
+public abstract class BaseTest implements Serializable {
 
     protected static final Logger logger = LogManager.getLogger(BaseTest.class);
 
