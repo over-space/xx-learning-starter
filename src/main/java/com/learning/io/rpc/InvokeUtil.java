@@ -11,7 +11,7 @@ public class InvokeUtil {
     private static final Logger logger = LogManager.getLogger(InvokeUtil.class);
 
     public static Object invoke(SimpleRegisterCenter registerCenter, RpcContent content) {
-        Object interfaceImpl = registerCenter.get(SimpleRegisterCenter.MODULE_SERVER_A, content.getName());
+        Object interfaceImpl = registerCenter.get(content.getName());
         return invoke(interfaceImpl, content.getMethodName(), content.getParameterTypes(), content.getArgs());
     }
 

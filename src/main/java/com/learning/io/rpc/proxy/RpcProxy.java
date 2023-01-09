@@ -1,5 +1,7 @@
 package com.learning.io.rpc.proxy;
 
+import com.learning.io.rpc.InvokeUtil;
+import com.learning.io.rpc.SimpleRegisterCenter;
 import com.learning.io.rpc.prototype.RpcContent;
 import com.learning.io.rpc.prototype.RpcHeader;
 import com.learning.utils.ByteUtils;
@@ -17,7 +19,6 @@ import java.lang.reflect.Proxy;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.URL;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class RpcProxy {
@@ -38,15 +39,24 @@ public class RpcProxy {
                 Class<?>[] parameterTypes = method.getParameterTypes();
                 RpcContent content = new RpcContent(name, methodName, parameterTypes, args);
 
-                if(RpcHeader.PROTOTYPE_RPC.equalsIgnoreCase(prototype)){
+                // local / rpc
+
+                if(SimpleRegisterCenter.getRegisterCenter("module_xxxx").get(name) != null){
+                    // local
+                    return InvokeUtil.invoke(SimpleRegisterCenter.getRegisterCenter("module_xxxx"), content);
+                }else {
                     // rpc
-                    invocationHandlerByRPC(content, completableFutureResponse);
-                }else if(RpcHeader.PROTOTYPE_NETTY_HTTP.equalsIgnoreCase(prototype)){
-                    // netty http
-                    invocationHandlerByNettyHttp(content, completableFutureResponse);
-                }else{
-                    // http
-                    invocationHandlerByCustomHttp(content, completableFutureResponse);
+
+                    if (RpcHeader.PROTOTYPE_RPC.equalsIgnoreCase(prototype)) {
+                        // rpc
+                        invocationHandlerByRPC(content, completableFutureResponse);
+                    } else if (RpcHeader.PROTOTYPE_NETTY_HTTP.equalsIgnoreCase(prototype)) {
+                        // netty http
+                        invocationHandlerByNettyHttp(content, completableFutureResponse);
+                    } else {
+                        // http
+                        invocationHandlerByCustomHttp(content, completableFutureResponse);
+                    }
                 }
 
             }catch (Exception e){

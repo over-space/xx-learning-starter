@@ -99,9 +99,9 @@ public final class RpcServerStarter {
         Fly fly = new FlyImpl();
         Calc calc = new CalcImpl();
 
-        SimpleRegisterCenter registerCenter = SimpleRegisterCenter.getRegisterCenter();
-        registerCenter.register(SimpleRegisterCenter.MODULE_SERVER_A, Fly.class.getName(), fly);
-        registerCenter.register(SimpleRegisterCenter.MODULE_SERVER_A, Calc.class.getName(), calc);
+        SimpleRegisterCenter registerCenter = SimpleRegisterCenter.getRegisterCenter(SimpleRegisterCenter.MODULE_SERVER_A);
+        registerCenter.register(Fly.class.getName(), fly);
+        registerCenter.register(Calc.class.getName(), calc);
         return registerCenter;
     }
 }

@@ -33,7 +33,7 @@ public class HttpServletRpcHandler extends HttpServlet {
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
             RpcContent content = (RpcContent) objectInputStream.readObject();
 
-            Object interfaceImpl = SimpleRegisterCenter.getRegisterCenter().get(SimpleRegisterCenter.MODULE_SERVER_A, content.getName());
+            Object interfaceImpl = SimpleRegisterCenter.getRegisterCenter(SimpleRegisterCenter.MODULE_SERVER_A).get(content.getName());
             Object result = InvokeUtil.invoke(interfaceImpl, content.getMethodName(), content.getParameterTypes(), content.getArgs());
 
             // 将结果写回给客户端
