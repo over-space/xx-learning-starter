@@ -2,6 +2,7 @@ package com.learning.utils;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.buffer.Unpooled;
 
 import java.io.*;
 
@@ -33,8 +34,17 @@ public final class ByteUtils {
         }
     }
 
+    public static synchronized  <T extends Serializable> T toObject(ByteBuf byteBuf) {
+        byte[] bytes =  new byte[byteBuf.readableBytes()];
+        byteBuf.readBytes(bytes);
+        return toObject(bytes);
+    }
+
     public static ByteBuf createDirectBuffer(int initialCapacity){
         return PooledByteBufAllocator.DEFAULT.directBuffer(initialCapacity);
     }
 
+    public static ByteBuf copiedBuffer(byte[] bytes){
+        return Unpooled.copiedBuffer(bytes);
+    }
 }
