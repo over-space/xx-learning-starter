@@ -44,6 +44,14 @@ public final class ByteUtils {
         return PooledByteBufAllocator.DEFAULT.directBuffer(initialCapacity);
     }
 
+    public static ByteBuf createDirectBuffer(int initialCapacity, byte[]...byteList){
+        ByteBuf byteBuf = PooledByteBufAllocator.DEFAULT.directBuffer(initialCapacity);
+        for (byte[] bytes : byteList) {
+            byteBuf.writeBytes(bytes);
+        }
+        return byteBuf;
+    }
+
     public static ByteBuf copiedBuffer(byte[] bytes){
         return Unpooled.copiedBuffer(bytes);
     }

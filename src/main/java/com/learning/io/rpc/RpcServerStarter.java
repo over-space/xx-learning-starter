@@ -70,7 +70,7 @@ public final class RpcServerStarter {
 
     public static void startNettyServer(){
         try {
-            SimpleRegisterCenter registerCenter = initServerRegisterCenter();
+            initServerRegisterCenter();
 
             NioEventLoopGroup group = new NioEventLoopGroup(20);
             ServerBootstrap bootstrap = new ServerBootstrap();
@@ -83,7 +83,7 @@ public final class RpcServerStarter {
                             logger.info("server accept client : {}", client.remoteAddress());
                             ChannelPipeline pipeline = client.pipeline();
                             pipeline.addLast(new ServerRequestDecoder("server decoder"));// 先解码，再传给后续handler.
-                            pipeline.addLast(new ServerRequestHandler(registerCenter));
+                            pipeline.addLast(new ServerRequestHandler());
                         }
                     }).bind(9090)
                     .sync()

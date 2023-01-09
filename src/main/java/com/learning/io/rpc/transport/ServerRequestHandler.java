@@ -16,13 +16,6 @@ public class ServerRequestHandler extends ChannelInboundHandlerAdapter {
 
     private static final Logger logger = LogManager.getLogger(ServerRequestHandler.class);
 
-
-    private SimpleRegisterCenter registerCenter;
-
-    public ServerRequestHandler(SimpleRegisterCenter registerCenter){
-        this.registerCenter = registerCenter;
-    }
-
     // provider:
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -72,7 +65,7 @@ public class ServerRequestHandler extends ChannelInboundHandlerAdapter {
             // String threadName = String.format("io-thread:%s, busines-thread: %s", ioThreadName, Thread.currentThread().getName());
             // RpcContent requestContent = new RpcContent(threadName);
 
-            Object result = InvokeUtil.invoke(registerCenter, content);
+            Object result = InvokeUtil.invoke(SimpleRegisterCenter.getRegisterCenter(SimpleRegisterCenter.MODULE_SERVER_A), content);
             RpcContent requestContent = new RpcContent(result);
             byte[] requestContentBytes = ByteUtils.toByteArray(requestContent);
 
@@ -82,10 +75,7 @@ public class ServerRequestHandler extends ChannelInboundHandlerAdapter {
             logger.info("server channel read, interfaceName:{}, methodName:{}, args:{}, requestHeaderBytes: {}, requestContentBytes: {}",
                     content.getName(),content.getMethodName(), content.getArgs(), requestHeaderBytes.length, requestContentBytes.length);
 
-            ByteBuf byteBuf = ByteUtils.createDirectBuffer(requestHeaderBytes.length + requestContentBytes.length);
-            byteBuf.writeBytes(requestHeaderBytes);
-            byteBuf.writeBytes(requestContentBytes);
-
+            ByteBuf byteBuf = ByteUtils.createDirectBuffer(requestHeaderBytes.length + requestContentBytes.length, requestHeaderBytes, requestContentBytes);
             ctx.writeAndFlush(byteBuf);
         });
     }

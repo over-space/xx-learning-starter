@@ -30,4 +30,6 @@ public final class SimpleRegisterCenter {
     public final static Object get(String interfaceName){
         return serverMap.get(interfaceName);
     }
+
+
 }

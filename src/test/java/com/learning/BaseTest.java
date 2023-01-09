@@ -1,6 +1,7 @@
 package com.learning;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import org.apache.log4j.PropertyConfigurator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterAll;
@@ -33,6 +34,7 @@ public abstract class BaseTest implements Serializable {
 
     @BeforeAll
     public static void beforeAll() {
+        PropertyConfigurator.configure(BaseTest.class.getClassLoader().getResourceAsStream("log4j2.xml"));
         logger.info("================================================================================================");
         logger.info("-------------------------------------开始执行测试方法---------------------------------------------");
         logger.info("");
