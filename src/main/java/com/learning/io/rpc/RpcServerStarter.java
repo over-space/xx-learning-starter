@@ -14,13 +14,16 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpServerCodec;
+import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 
 import java.net.InetSocketAddress;
-import java.util.concurrent.CountDownLatch;
 
 public final class RpcServerStarter {
     private static final Logger logger = LogManager.getLogger(RpcServerStarter.class);
@@ -53,6 +56,27 @@ public final class RpcServerStarter {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void startWebsocketServer() throws InterruptedException {
+        NioEventLoopGroup boss = new NioEventLoopGroup(5);
+        NioEventLoopGroup works = new NioEventLoopGroup(10);
+        ServerBootstrap bootstrap = new ServerBootstrap();
+        Channel channel = bootstrap.group(boss, works)
+                .channel(NioServerSocketChannel.class)
+                .childHandler(new ChannelInitializer<NioSocketChannel>() {
+                    @Override
+                    protected void initChannel(NioSocketChannel channel) throws Exception {
+                        channel.pipeline()
+                                .addLast(new HttpServerCodec())
+                                .addLast(new HttpObjectAggregator(1024 * 512))
+                                .addLast(new WebSocketServerProtocolHandler("/websocket"));
+                    }
+                }).bind(9090)
+                .sync()
+                .channel();
+
+
     }
 
     public static void asyncStartNettyServer(){
@@ -95,11 +119,11 @@ public final class RpcServerStarter {
         }
     }
 
-    private static SimpleRegisterCenter initServerRegisterCenter() {
+    private static ServiceFactory initServerRegisterCenter() {
         Fly fly = new FlyImpl();
         Calc calc = new CalcImpl();
 
-        SimpleRegisterCenter registerCenter = SimpleRegisterCenter.getRegisterCenter(SimpleRegisterCenter.MODULE_SERVER_A);
+        ServiceFactory registerCenter = ServiceFactory.getServiceFactory();
         registerCenter.register(Fly.class.getName(), fly);
         registerCenter.register(Calc.class.getName(), calc);
         return registerCenter;

@@ -1,24 +1,30 @@
 package com.learning.io.rpc.prototype;
 
+import com.learning.utils.ByteUtils;
+
 import java.io.Serializable;
 import java.util.UUID;
 
 public class RpcHeader implements Serializable {
 
-    public static final int HEADER_LENGTH = 154;
+    public static int HEADER_LENGTH;
 
-    public static final String PROTOTYPE_NETTY_HTTP = "netty-http";
-    public static final String PROTOTYPE_HTTP = "http";
-    public static final String PROTOTYPE_RPC = "rpc";
+    public static final String PROTOCOL_NETTY_HTTP = "netty-http";
+    public static final String PROTOCOL_HTTP = "http";
+    public static final String PROTOCOL_RPC = "rpc";
 
     public static final int FLAG_CLIENT = 0X141414;
     public static final int FLAG_SERVER = 0X141424;
 
-    public String prototype = PROTOTYPE_RPC;
+    public String protocol = PROTOCOL_RPC;
 
     private int flag;
     private long requestId;
     private long contentLength;
+
+    static {
+        HEADER_LENGTH = ByteUtils.toByteArray(new RpcHeader()).length;
+    }
 
 
     public static RpcHeader createHeader(byte[] msgBody) {
@@ -33,12 +39,12 @@ public class RpcHeader implements Serializable {
         return header;
     }
 
-    public String getPrototype() {
-        return prototype;
+    public String getProtocol() {
+        return protocol;
     }
 
-    public void setPrototype(String prototype) {
-        this.prototype = prototype;
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
     }
 
     public int getFlag() {

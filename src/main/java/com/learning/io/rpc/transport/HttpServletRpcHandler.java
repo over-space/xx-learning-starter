@@ -1,7 +1,8 @@
 package com.learning.io.rpc.transport;
 
-import com.learning.io.rpc.InvokeUtil;
-import com.learning.io.rpc.SimpleRegisterCenter;
+import com.learning.io.rpc.prototype.RpcResponse;
+import com.learning.io.rpc.util.InvokeUtil;
+import com.learning.io.rpc.ServiceFactory;
 import com.learning.io.rpc.prototype.RpcContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,24 +27,27 @@ public class HttpServletRpcHandler extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         logger.info("exec HttpServletRpcHandler#doPost....");
+
+        RpcContent respContent;
         try {
             ServletInputStream inputStream = req.getInputStream();
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
             RpcContent content = (RpcContent) objectInputStream.readObject();
 
-            Object interfaceImpl = SimpleRegisterCenter.getRegisterCenter(SimpleRegisterCenter.MODULE_SERVER_A).get(content.getName());
+            Object interfaceImpl = ServiceFactory.getServiceFactory().get(content.getName());
             Object result = InvokeUtil.invoke(interfaceImpl, content.getMethodName(), content.getParameterTypes(), content.getArgs());
 
             // 将结果写回给客户端
-            RpcContent respContent = new RpcContent(result);
-            ServletOutputStream outputStream = resp.getOutputStream();
-            ObjectOutputStream oout = new ObjectOutputStream(outputStream);
-            oout.writeObject(respContent);
+            respContent = new RpcContent(new RpcResponse(result));
+
         }catch (Exception e){
-            logger.error(e.getMessage(), e);
+            respContent = new RpcContent(new RpcResponse(e));
         }
 
+        ServletOutputStream outputStream = resp.getOutputStream();
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+        objectOutputStream.writeObject(respContent);
     }
 }

@@ -1,9 +1,9 @@
 package com.learning.io.rpc.proxy;
 
-import com.learning.io.rpc.InvokeUtil;
-import com.learning.io.rpc.SimpleRegisterCenter;
+import com.learning.io.rpc.ServiceFactory;
 import com.learning.io.rpc.prototype.RpcContent;
 import com.learning.io.rpc.prototype.RpcHeader;
+import com.learning.io.rpc.prototype.RpcResponse;
 import com.learning.utils.ByteUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
@@ -31,7 +31,7 @@ public class RpcProxy {
         Class<?>[] interfaces = {interfaceInfo};
 
         return (T) Proxy.newProxyInstance(classLoader, interfaces, (proxy, method, args) -> {
-            CompletableFuture<Object> completableFutureResponse = new CompletableFuture<>();
+            CompletableFuture<RpcResponse> completableFutureResponse = new CompletableFuture<>();
             try {
                 // 1. 将参数封装成content
                 String name = interfaceInfo.getName();
@@ -39,18 +39,19 @@ public class RpcProxy {
                 Class<?>[] parameterTypes = method.getParameterTypes();
                 RpcContent content = new RpcContent(name, methodName, parameterTypes, args);
 
-                // local / rpc
 
-                if(SimpleRegisterCenter.getRegisterCenter("module_xxxx").get(name) != null){
+                final String moduleName = "xxxxxxx";// ServiceFactory.getModuleName();
+                if(ServiceFactory.getServiceFactory(moduleName).get(name) != null){
                     // local
-                    return InvokeUtil.invoke(SimpleRegisterCenter.getRegisterCenter("module_xxxx"), content);
+                    // return InvokeUtil.invoke(ServiceFactory.getServiceFactory("module_xxxx"), content);
+                    return ServiceFactory.getServiceFactory(moduleName).invoke(content);
                 }else {
                     // rpc
 
-                    if (RpcHeader.PROTOTYPE_RPC.equalsIgnoreCase(prototype)) {
+                    if (RpcHeader.PROTOCOL_RPC.equalsIgnoreCase(prototype)) {
                         // rpc
                         invocationHandlerByRPC(content, completableFutureResponse);
-                    } else if (RpcHeader.PROTOTYPE_NETTY_HTTP.equalsIgnoreCase(prototype)) {
+                    } else if (RpcHeader.PROTOCOL_NETTY_HTTP.equalsIgnoreCase(prototype)) {
                         // netty http
                         invocationHandlerByNettyHttp(content, completableFutureResponse);
                     } else {
@@ -61,15 +62,15 @@ public class RpcProxy {
 
             }catch (Exception e){
                 logger.error(e.getMessage(), e);
-                completableFutureResponse.complete(e.getMessage());
+                completableFutureResponse.complete(new RpcResponse(e));
             }
-            return completableFutureResponse.get();
+             return completableFutureResponse.get().getResult();
         });
     }
 
 
 
-    private static void invocationHandlerByRPC(RpcContent content, CompletableFuture<Object> completableFutureResponse) throws InterruptedException {
+    private static void invocationHandlerByRPC(RpcContent content, CompletableFuture<RpcResponse> completableFutureResponse) throws InterruptedException {
         byte[] msgBody = ByteUtils.toByteArray(content);
 
         // 2. 封装header
@@ -95,7 +96,7 @@ public class RpcProxy {
     }
 
 
-    private static void invocationHandlerByNettyHttp(RpcContent content, CompletableFuture<Object> completableFutureResponse) throws InterruptedException {
+    private static void invocationHandlerByNettyHttp(RpcContent content, CompletableFuture<RpcResponse> completableFutureResponse) throws InterruptedException {
 
         NioEventLoopGroup group = new NioEventLoopGroup(1);
         Channel client = new Bootstrap()
@@ -113,8 +114,8 @@ public class RpcProxy {
                                         // 接收服务端返回信息
                                         FullHttpResponse response = (FullHttpResponse) msg;
 
-                                        RpcContent content = (RpcContent)ByteUtils.toObject(response.content());
-                                        completableFutureResponse.complete(content.getResult());
+                                        RpcContent content = ByteUtils.toObject(response.content());
+                                        completableFutureResponse.complete(content.getResponse());
                                     }
                                 });
 
@@ -130,7 +131,7 @@ public class RpcProxy {
         client.writeAndFlush(request).sync();
     }
 
-    private static void invocationHandlerByCustomHttp(RpcContent content, CompletableFuture<Object> completableFutureResponse) throws IOException, ClassNotFoundException {
+    private static void invocationHandlerByCustomHttp(RpcContent content, CompletableFuture<RpcResponse> completableFutureResponse) throws IOException, ClassNotFoundException {
         URL url = new URL("http://127.0.0.1:9090/");
 
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -149,7 +150,7 @@ public class RpcProxy {
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
             RpcContent  response = (RpcContent)objectInputStream.readObject();
 
-            completableFutureResponse.complete(response.getResult());
+            completableFutureResponse.complete(response.getResponse());
         }else{
             throw new RuntimeException("http response error, " + httpURLConnection.getResponseCode());
         }

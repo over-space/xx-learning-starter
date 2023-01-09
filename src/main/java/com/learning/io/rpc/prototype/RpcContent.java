@@ -9,13 +9,13 @@ public class RpcContent implements Serializable {
         private String methodName;
         private Class<?>[] parameterTypes;
         private Object[] args;
-        private Object result;
+        private RpcResponse response;
 
         public RpcContent() {
         }
 
-        public RpcContent(Object result) {
-            this.result = result;
+        public RpcContent(RpcResponse response) {
+            this.response = response;
         }
 
         public RpcContent(String name, String methodName, Class<?>[] parameterTypes, Object[] args) {
@@ -57,18 +57,18 @@ public class RpcContent implements Serializable {
             this.args = args;
         }
 
-        public Object getResult() {
-            return result;
-        }
+    public RpcResponse getResponse() {
+        return response;
+    }
 
-        @Override
+    @Override
         public String toString() {
             return "RpcContent{" +
                     "name='" + name + '\'' +
                     ", methodName='" + methodName + '\'' +
                     ", parameterTypes=" + Arrays.toString(parameterTypes) +
                     ", args=" + Arrays.toString(args) +
-                    ", result=" + result +
+                    ", response=" + response +
                     '}';
         }
 }

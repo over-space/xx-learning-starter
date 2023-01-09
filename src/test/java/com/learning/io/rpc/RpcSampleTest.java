@@ -22,7 +22,7 @@ public class RpcSampleTest extends BaseTest {
     void testRPC(){
         RpcServerStarter.asyncStartNettyServer();
 
-        testRpcClient(RpcHeader.PROTOTYPE_RPC);
+        testRpcClient(RpcHeader.PROTOCOL_RPC);
 
         try {
             System.in.read();
@@ -35,7 +35,7 @@ public class RpcSampleTest extends BaseTest {
     void testRpcByNettyHttp(){
         RpcServerStarter.asyncStartHttpServer("127.0.0.1", 9090);
 
-        testRpcClient(RpcHeader.PROTOTYPE_NETTY_HTTP);
+        testRpcClient(RpcHeader.PROTOCOL_NETTY_HTTP);
 
         try {
             System.in.read();
@@ -48,7 +48,7 @@ public class RpcSampleTest extends BaseTest {
     void testRpcByHttp(){
         RpcServerStarter.asyncStartHttpServer("127.0.0.1", 9090);
 
-        testRpcClient(RpcHeader.PROTOTYPE_HTTP);
+        testRpcClient(RpcHeader.PROTOCOL_HTTP);
 
         try {
             System.in.read();

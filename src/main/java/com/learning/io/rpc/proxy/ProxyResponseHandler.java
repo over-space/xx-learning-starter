@@ -14,7 +14,7 @@ public class ProxyResponseHandler {
     public static void runCallback(MsgPack msgPack){
         long requestId = msgPack.getHeader().getRequestId();
         CompletableFuture completableFuture = mapping.get(requestId);
-        completableFuture.complete(msgPack.getContent().getResult());
+        completableFuture.complete(msgPack.getContent().getResponse());
         remove(requestId);
     }
 

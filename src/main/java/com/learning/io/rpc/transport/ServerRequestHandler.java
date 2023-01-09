@@ -1,8 +1,8 @@
 package com.learning.io.rpc.transport;
 
-import com.learning.io.rpc.InvokeUtil;
+import com.learning.io.rpc.prototype.RpcResponse;
 import com.learning.io.rpc.MsgPack;
-import com.learning.io.rpc.SimpleRegisterCenter;
+import com.learning.io.rpc.ServiceFactory;
 import com.learning.io.rpc.prototype.RpcContent;
 import com.learning.io.rpc.prototype.RpcHeader;
 import com.learning.utils.ByteUtils;
@@ -58,22 +58,35 @@ public class ServerRequestHandler extends ChannelInboundHandlerAdapter {
         // String ioThreadName = Thread.currentThread().getName();
         // ctx.executor().execute(() -> { // 当前IO线程
         ctx.executor().parent().next().execute(() -> {
+            byte[] requestContentBytes = null;
+            byte[] requestHeaderBytes = null;
+
             MsgPack msgPack = (MsgPack) msg;
             RpcHeader header = msgPack.getHeader();
             RpcContent content = msgPack.getContent();
+            try {
 
-            // String threadName = String.format("io-thread:%s, busines-thread: %s", ioThreadName, Thread.currentThread().getName());
-            // RpcContent requestContent = new RpcContent(threadName);
+                // String threadName = String.format("io-thread:%s, busines-thread: %s", ioThreadName, Thread.currentThread().getName());
+                // RpcContent requestContent = new RpcContent(threadName);
 
-            Object result = InvokeUtil.invoke(SimpleRegisterCenter.getRegisterCenter(SimpleRegisterCenter.MODULE_SERVER_A), content);
-            RpcContent requestContent = new RpcContent(result);
-            byte[] requestContentBytes = ByteUtils.toByteArray(requestContent);
+                Object result = ServiceFactory.invoke(content);
+                RpcContent requestContent = new RpcContent(new RpcResponse(result));
+                requestContentBytes = ByteUtils.toByteArray(requestContent);
 
-            RpcHeader requestHeader = RpcHeader.createHeader(RpcHeader.FLAG_SERVER,header.getRequestId(), requestContentBytes);
-            byte[] requestHeaderBytes = ByteUtils.toByteArray(requestHeader);
+                RpcHeader requestHeader = RpcHeader.createHeader(RpcHeader.FLAG_SERVER, header.getRequestId(), requestContentBytes);
+                requestHeaderBytes = ByteUtils.toByteArray(requestHeader);
 
-            logger.info("server channel read, interfaceName:{}, methodName:{}, args:{}, requestHeaderBytes: {}, requestContentBytes: {}",
-                    content.getName(),content.getMethodName(), content.getArgs(), requestHeaderBytes.length, requestContentBytes.length);
+                logger.info("server channel read, interfaceName:{}, methodName:{}, args:{}, requestHeaderBytes: {}, requestContentBytes: {}",
+                        content.getName(), content.getMethodName(), content.getArgs(), requestHeaderBytes.length, requestContentBytes.length);
+
+            }catch (Exception e){
+                RpcContent requestContent = new RpcContent(new RpcResponse(e));
+                requestContentBytes = ByteUtils.toByteArray(requestContent);
+                if(requestHeaderBytes == null){
+                    RpcHeader requestHeader = RpcHeader.createHeader(RpcHeader.FLAG_SERVER, header.getRequestId(), requestContentBytes);
+                    requestHeaderBytes = ByteUtils.toByteArray(requestHeader);
+                }
+            }
 
             ByteBuf byteBuf = ByteUtils.createDirectBuffer(requestHeaderBytes.length + requestContentBytes.length, requestHeaderBytes, requestContentBytes);
             ctx.writeAndFlush(byteBuf);
