@@ -1,18 +1,15 @@
 package com.learning;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import org.apache.log4j.xml.DOMConfigurator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.ConfigurationSource;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.impl.Log4jContextFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.ResourceUtils;
-import org.springframework.util.SystemPropertyUtils;
 
-import java.io.File;
 import java.io.Serializable;
-import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -35,11 +32,11 @@ public abstract class BaseTest implements Serializable {
 
     private static void loadLoggerConfig() {
         try {
-            ClassPathResource resource = new ClassPathResource("log4j.xml");
-            DOMConfigurator.configure(resource.getPath());
-            // PropertyConfigurator.configure(BaseTest.class.getClassLoader().getResourceAsStream("log4j2.xml"));
+            LogManager.setFactory(new Log4jContextFactory());
+            ConfigurationSource configurationSource = ConfigurationSource.fromResource("log4j2.xml", BaseTest.class.getClassLoader());
+            Configurator.initialize(null, configurationSource);
         } catch (Exception e) {
-            logger.error("加载log4j.xml配置失败...., error:{}", e.getMessage());
+            logger.error("加载log4j2.xml配置失败...., error:{}", e.getMessage());
         }
 
     }
