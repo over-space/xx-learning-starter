@@ -12,6 +12,8 @@ public final class ServiceFactory {
 
     private static ConcurrentHashMap<String, Object> serverMap;
 
+    private static ConcurrentHashMap<Class, MethodAccess> methodAccessMap = new ConcurrentHashMap<>();
+
     public static synchronized ServiceFactory getServiceFactory() {
         return getServiceFactory(getModuleName());
     }
@@ -44,7 +46,11 @@ public final class ServiceFactory {
 
     public static Object invoke(String interfaceName, String methodName, Class<?>[] parameterTypes, Object[] args){
         Object server = getServiceFactory().get(interfaceName);
-        MethodAccess methodAccess = MethodAccess.get(server.getClass());
+        MethodAccess methodAccess = getMethodAccess(server.getClass());
         return methodAccess.invoke(server, methodName, parameterTypes, args);
+    }
+
+    private static MethodAccess getMethodAccess(Class clazz){
+        return methodAccessMap.computeIfAbsent(clazz, key -> MethodAccess.get(clazz));
     }
 }
