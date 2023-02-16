@@ -6,6 +6,7 @@ import com.learning.middleware.mq.tx.service.MsgRecordService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -21,14 +22,13 @@ import java.util.List;
  * @since 2022/9/19
  */
 @Component
+@ConditionalOnProperty(name = "kafka.transaction.message.mode", havingValue = "AOP")
 public class TxMessageJob {
 
     private static final Logger logger = LogManager.getLogger(TxMessageJob.class);
 
     @Resource
     private MsgRecordService msgRecordService;
-    // @Resource
-    // private MessageProducer messageProducer;
 
     @Scheduled(cron = "0/15 * * * * ?")
     public void run(){
