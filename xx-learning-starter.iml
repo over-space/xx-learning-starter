@@ -447,5 +447,6 @@
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.19.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.19.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.openjdk.jol:jol-core:0.16" level="project" />
+    <orderEntry type="library" name="scala-sdk-3.2.2" level="application" />
   </component>
 </module>
