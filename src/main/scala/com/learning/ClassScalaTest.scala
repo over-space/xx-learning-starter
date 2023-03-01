@@ -1,4 +1,4 @@
-package com.learning.scala
+package com.learning
 
 class ClassScalaTest(value:String) {
   
