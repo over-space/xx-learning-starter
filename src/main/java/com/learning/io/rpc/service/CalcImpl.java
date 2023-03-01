@@ -1,6 +1,6 @@
 package com.learning.io.rpc.service;
 
-public class CalcImpl implements Calc{
+public class CalcImpl implements Calc {
 
     @Override
     public int add(int a, int b) {

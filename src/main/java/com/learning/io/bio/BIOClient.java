@@ -32,7 +32,7 @@ public class BIOClient {
     }
 
     private static void handle(InputStream in, OutputStream out) throws IOException {
-        //获得一个字符输入流
+        // 获得一个字符输入流
         BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
         Scanner scanner = new Scanner(System.in);

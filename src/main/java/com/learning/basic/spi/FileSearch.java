@@ -10,7 +10,7 @@ import java.util.List;
  * @author 李芳
  * @since 2022/9/27
  */
-public class FileSearch implements Search{
+public class FileSearch implements Search {
 
     private static final Logger logger = LogManager.getLogger(DatabaseSearch.class);
 

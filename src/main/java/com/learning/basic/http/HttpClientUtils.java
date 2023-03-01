@@ -41,9 +41,9 @@ public final class HttpClientUtils {
     private static CloseableHttpClient getHttpClient() {
         init();
         RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectionRequestTimeout(1000)//设定连接服务器超时时间
-                .setConnectTimeout(120000)//设定从连接池获取可用连接的时间
-                .setSocketTimeout(120000)//设定获取数据的超时时间
+                .setConnectionRequestTimeout(1000)// 设定连接服务器超时时间
+                .setConnectTimeout(120000)// 设定从连接池获取可用连接的时间
+                .setSocketTimeout(120000)// 设定获取数据的超时时间
                 .build();
         return HttpClients.custom().setConnectionManager(cm).setDefaultRequestConfig(requestConfig).build();
     }

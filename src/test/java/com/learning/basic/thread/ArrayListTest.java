@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 public class ArrayListTest extends BaseTest {
 
     @Test
-    public void test(){
+    public void test() {
 
         List<Integer> list = new ArrayList<>();
 
@@ -25,7 +25,7 @@ public class ArrayListTest extends BaseTest {
 
         boolean empty = list.stream().anyMatch(num -> num == null);
 
-        System.out.println("empty: "+ empty);
+        System.out.println("empty: " + empty);
     }
 
 }

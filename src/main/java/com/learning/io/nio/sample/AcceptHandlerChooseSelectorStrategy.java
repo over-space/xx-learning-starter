@@ -4,7 +4,7 @@ import java.nio.channels.Channel;
 import java.nio.channels.ServerSocketChannel;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class AcceptHandlerChooseSelectorStrategy implements ChooseSelectorStrategy{
+public class AcceptHandlerChooseSelectorStrategy implements ChooseSelectorStrategy {
 
     private AtomicInteger xid;
     private SelectorThread[] selectorThreads;
@@ -16,9 +16,9 @@ public class AcceptHandlerChooseSelectorStrategy implements ChooseSelectorStrate
 
     @Override
     public SelectorThread chooseSelector(Channel channel) {
-        if(channel instanceof ServerSocketChannel){
+        if (channel instanceof ServerSocketChannel) {
             return this.selectorThreads[0];
-        }else{
+        } else {
             int index = xid.incrementAndGet() % (this.selectorThreads.length - 1);
             return this.selectorThreads[index + 1];
         }

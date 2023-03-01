@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
 public class Exception extends BaseTest implements Testing {
 
     @Test
-    public void test(){
-        try{
+    public void test() {
+        try {
 
             int i = 1 / 0;
 
-        }catch (java.lang.Exception e){
+        } catch (java.lang.Exception e) {
             e.printStackTrace();
             System.out.println("-------------------------------------------------------------------------------");
             logger.info(e.getMessage(), e);
@@ -31,7 +31,7 @@ public class Exception extends BaseTest implements Testing {
     }
 
     @Test
-    public void testLocalDateTime(){
+    public void testLocalDateTime() {
         LocalDateTime current = LocalDateTime.now();
         System.out.println(current.getMonth().getValue());
         System.out.println(current.getMonthValue());

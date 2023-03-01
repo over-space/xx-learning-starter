@@ -28,14 +28,14 @@ public class TemperatureReducer extends Reducer<TemperatureMapKey, IntWritable, 
             // 遍历values，但随着next的调用，key的值也会变化，引用传递。
             IntWritable next = iterator.next();
 
-            if(!flag){
+            if (!flag) {
                 flag = true;
                 day = key.getDay();
 
                 outKey.set(String.format("%s-%02d-%02d,%s", key.getYear(), key.getMonth(), key.getDay(), key.getCity()));
                 outValue.set(next.get());
                 context.write(outKey, outValue);
-            }else if(day != key.getDay()){
+            } else if (day != key.getDay()) {
                 outKey.set(String.format("%s-%02d-%02d,%s", key.getYear(), key.getMonth(), key.getDay(), key.getCity()));
                 outValue.set(next.get());
                 context.write(outKey, outValue);

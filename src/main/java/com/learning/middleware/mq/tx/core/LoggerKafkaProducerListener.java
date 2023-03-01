@@ -6,7 +6,7 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LoggerKafkaProducerListener extends AbstractKafkaProducerListener{
+public class LoggerKafkaProducerListener extends AbstractKafkaProducerListener {
 
     @Override
     public void onError(ProducerRecord<String, MessageBody> producerRecord, RecordMetadata recordMetadata, Exception exception) {

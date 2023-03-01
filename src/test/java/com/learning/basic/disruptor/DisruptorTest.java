@@ -17,7 +17,7 @@ public class DisruptorTest extends BaseTest {
 
 
     @Test
-    void testDisruptor(){
+    void testDisruptor() {
 
         DisruptorMessageProducer.publish(new OrderEvent(), Lists.newArrayList(new OrderConsumer("consumer-1"), new OrderConsumer("consumer-2")), (ringBuffer -> {
 

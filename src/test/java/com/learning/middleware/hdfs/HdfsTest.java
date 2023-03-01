@@ -82,7 +82,7 @@ public class HdfsTest {
         logger.info("file : {}", file.getPath());
         BufferedInputStream input = new BufferedInputStream(new FileInputStream(file));
         Path outfile = new Path("/users/root/data.txt");
-        FSDataOutputStream output = fs.create(outfile, true, 2048, (short) 2,1048576L);
+        FSDataOutputStream output = fs.create(outfile, true, 2048, (short) 2, 1048576L);
         IOUtils.copyBytes(input, output, conf, true);
         logger.info("上传文件。");
     }

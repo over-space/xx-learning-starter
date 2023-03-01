@@ -37,9 +37,9 @@ public class TemperatureMapper extends Mapper<Object, Text, TemperatureMapKey, I
 
             String line = reader.readLine();
 
-            while(line != null){
+            while (line != null) {
                 String[] split = line.split(":");
-                cityMap.put(split[0],split[1]);
+                cityMap.put(split[0], split[1]);
                 line = reader.readLine();
             }
         }

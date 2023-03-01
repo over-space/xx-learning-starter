@@ -21,7 +21,7 @@ public class BService {
     private BRepository bRepository;
 
     @Transactional
-    public void save(){
+    public void save() {
         BEntity entity = new BEntity();
         entity.setName("b_" + ThreadLocalRandom.current().nextLong(0, 999999999));
         entity.setCreatedDate(LocalDateTime.now());
@@ -29,7 +29,7 @@ public class BService {
     }
 
     @TransactionalMessage
-    public void save2(){
+    public void save2() {
         BEntity entity = new BEntity();
         entity.setName("b_" + ThreadLocalRandom.current().nextLong(0, 999999999));
         entity.setCreatedDate(LocalDateTime.now());

@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 public class Leetcode0413 extends BaseTest {
 
     @Test
-    public void test(){
+    public void test() {
         // [1, 2, 3, 8, 13, 18]
         // > [1, 2, 3]
         // > [3, 8, 13]
@@ -26,9 +26,9 @@ public class Leetcode0413 extends BaseTest {
         int result = 0;
         for (int i = 2; i < len; i++) {
             int v = nums[i - 1] - nums[i];
-            if(v == sub){
+            if (v == sub) {
                 t++;
-            }else{
+            } else {
                 sub = v;
                 t = 0;
             }

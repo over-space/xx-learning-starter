@@ -133,10 +133,10 @@ public class CompletableFutureTest extends BaseTest {
         }, executorService).thenApply((e) -> {
             printLog("thenAccept");
             return 1;
-        }).thenApply((e) ->{
+        }).thenApply((e) -> {
             printLog("thenApplyAsync1");
             return 5;
-        }).thenApply((e) ->{
+        }).thenApply((e) -> {
             printLog("thenApplyAsync2");
             return 5;
         });

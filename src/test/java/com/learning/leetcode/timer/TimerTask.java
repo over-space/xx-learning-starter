@@ -4,7 +4,7 @@ package com.learning.leetcode.timer;
  * @author 李芳
  * @since 2022/7/21
  */
-public class TimerTask implements Runnable{
+public class TimerTask implements Runnable {
 
     /**
      * 延时时间

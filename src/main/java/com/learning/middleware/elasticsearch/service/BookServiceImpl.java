@@ -13,7 +13,7 @@ import java.util.List;
  * @since 2021/11/18
  */
 @Service
-public class BookServiceImpl{
+public class BookServiceImpl {
 
     @Autowired(required = false)
     private BookRepository bookRepository;
@@ -22,7 +22,7 @@ public class BookServiceImpl{
         bookRepository.save(book);
     }
 
-    public List<SearchHit<BookES>> findByContent(String content){
+    public List<SearchHit<BookES>> findByContent(String content) {
         return bookRepository.findByContent(content);
     }
 }

@@ -35,10 +35,10 @@ public class FriendMapper extends Mapper<Object, Text, Text, IntWritable> {
     }
 
     private String getKey(String s1, String s2) {
-        if(s1.compareTo(s2) > 0){
-            return  s1+"-"+s2;
-        }else{
-            return  s2+"-"+s1;
+        if (s1.compareTo(s2) > 0) {
+            return s1 + "-" + s2;
+        } else {
+            return s2 + "-" + s1;
         }
     }
 }

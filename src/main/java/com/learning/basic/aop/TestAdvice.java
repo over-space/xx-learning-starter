@@ -16,7 +16,8 @@ public class TestAdvice {
 
 
     @Pointcut(value = "@annotation(com.learning.basic.aop.Advice)")
-    public void pointcutAround(){}
+    public void pointcutAround() {
+    }
 
     @Around(value = "pointcutAround()")
     public Object around(ProceedingJoinPoint point) throws Throwable {

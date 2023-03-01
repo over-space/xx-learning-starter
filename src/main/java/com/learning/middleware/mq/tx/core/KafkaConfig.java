@@ -54,40 +54,40 @@ public class KafkaConfig {
     // @Bean
     public ProducerFactory<String, MessageBody> producerFactory() {
         Map<String, Object> props = new HashMap<>();
-        //kafka 集群地址
+        // kafka 集群地址
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
-        //重试次数
+        // 重试次数
         props.put(ProducerConfig.RETRIES_CONFIG, retries);
-        //应答级别
-        //acks=0 把消息发送到kafka就认为发送成功
-        //acks=1 把消息发送到kafka leader分区，并且写入磁盘就认为发送成功
-        //acks=all 把消息发送到kafka leader分区，并且leader分区的副本follower对消息进行了同步就任务发送成功
+        // 应答级别
+        // acks=0 把消息发送到kafka就认为发送成功
+        // acks=1 把消息发送到kafka leader分区，并且写入磁盘就认为发送成功
+        // acks=all 把消息发送到kafka leader分区，并且leader分区的副本follower对消息进行了同步就任务发送成功
         props.put(ProducerConfig.ACKS_CONFIG, acks);
-        //KafkaProducer.send() 和 partitionsFor() 方法的最长阻塞时间 单位 ms
+        // KafkaProducer.send() 和 partitionsFor() 方法的最长阻塞时间 单位 ms
         props.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, maxBlock);
-        //批量处理的最大大小 单位 byte
+        // 批量处理的最大大小 单位 byte
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, maxBlock);
-        //发送延时,当生产端积累的消息达到batch-size或接收到消息linger.ms后,生产者就会将消息提交给kafka
+        // 发送延时,当生产端积累的消息达到batch-size或接收到消息linger.ms后,生产者就会将消息提交给kafka
         props.put(ProducerConfig.LINGER_MS_CONFIG, batchSize);
-        //生产者可用缓冲区的最大值 单位 byte
+        // 生产者可用缓冲区的最大值 单位 byte
         props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
-        //每条消息最大的大小
+        // 每条消息最大的大小
         props.put(ProducerConfig.MAX_REQUEST_SIZE_CONFIG, 1048576);
-        //客户端ID
+        // 客户端ID
         props.put(ProducerConfig.CLIENT_ID_CONFIG, clientId);
-        //Key 序列化方式
+        // Key 序列化方式
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, KafkaMessageBodySerializer.class.getName());
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, KafkaMessageBodyDeserializer.class.getName());
-        //Value 序列化方式
+        // Value 序列化方式
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaMessageBodySerializer.class.getName());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaMessageBodyDeserializer.class.getName());
 
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, enableAutoCommit);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, enableOffsetReset);
 
-        //消息压缩：none、lz4、gzip、snappy，默认为 none。
+        // 消息压缩：none、lz4、gzip、snappy，默认为 none。
         props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "gzip");
-        //自定义分区器
+        // 自定义分区器
         // props.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, MyPartitioner.class.getName());
         return new DefaultKafkaProducerFactory<>(props);
     }

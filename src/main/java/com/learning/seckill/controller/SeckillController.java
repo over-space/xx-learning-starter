@@ -19,33 +19,33 @@ public class SeckillController {
     private GoodsService goodsService;
 
     @GetMapping(value = "/mysql/seckill")
-    public ResponseEntity seckillByMySQL(@RequestParam String goodsNum){
+    public ResponseEntity seckillByMySQL(@RequestParam String goodsNum) {
         goodsService.seckillByMySQL(goodsNum);
         return new ResponseEntity(HttpStatus.OK);
     }
 
 
     @GetMapping(value = "/redis/seckill/v1")
-    public ResponseEntity seckillByRedisV1(@RequestParam String goodsNum){
+    public ResponseEntity seckillByRedisV1(@RequestParam String goodsNum) {
         goodsService.seckillByRedisV1(goodsNum);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(value = "/redis/seckill/v2")
-    public ResponseEntity seckillByRedisV2(@RequestParam String goodsNum){
+    public ResponseEntity seckillByRedisV2(@RequestParam String goodsNum) {
         goodsService.seckillByRedisV2(goodsNum);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(value = "/thread/seckill/v1")
-    public ResponseEntity seckillByThreadV1(@RequestParam String goodsNum){
+    public ResponseEntity seckillByThreadV1(@RequestParam String goodsNum) {
         goodsService.seckillByThreadV1(goodsNum);
         return new ResponseEntity(HttpStatus.OK);
     }
 
 
     @GetMapping(value = "/init/goods")
-    public ResponseEntity init(){
+    public ResponseEntity init() {
         goodsService.init();
         return new ResponseEntity(HttpStatus.OK);
     }

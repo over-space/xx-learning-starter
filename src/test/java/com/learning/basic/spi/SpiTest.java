@@ -17,7 +17,7 @@ public class SpiTest extends BaseTest {
 
 
     @Test
-    public void test(){
+    public void test() {
         ServiceLoader<FileSearch> serviceLoaderList = ServiceLoader.load(FileSearch.class);
         for (FileSearch fileSearch : serviceLoaderList) {
             logger.info("spi result:{}", fileSearch.search("file"));

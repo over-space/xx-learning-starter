@@ -22,16 +22,16 @@ public class Leetcode0476 extends BaseTest implements Testing {
      * @param num
      * @return
      */
-    private String toBinary(int num){
+    private String toBinary(int num) {
 
         boolean negative = num < 0;
         String s = "";
 
-        if(negative){
+        if (negative) {
             num = -num;
         }
         int len = 0;
-        while (num > 0){
+        while (num > 0) {
             if (num % 2 != 0) {
                 s = "1" + s;
             } else {
@@ -42,9 +42,9 @@ public class Leetcode0476 extends BaseTest implements Testing {
         }
 
         for (int i = 0; i < 8 - len; i++) {
-            if(negative) {
+            if (negative) {
                 s = "1" + s;
-            }else{
+            } else {
                 s = "0" + s;
             }
         }

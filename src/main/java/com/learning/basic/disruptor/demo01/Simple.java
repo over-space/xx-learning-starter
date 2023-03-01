@@ -10,7 +10,7 @@ import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.dsl.Disruptor;
 
 public class Simple {
-    
+
     public static void main(String[] args) {
         ExecutorService exec = Executors.newCachedThreadPool();
         // Preallocate RingBuffer with 1024 ValueEvents

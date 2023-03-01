@@ -10,18 +10,19 @@ import java.util.List;
  * @author 李芳
  * @since 2022/9/19
  */
-public abstract class AbstractKafkaConsumer implements MessageConsumer{
+public abstract class AbstractKafkaConsumer implements MessageConsumer {
 
-    protected void consumer(ConsumerRecord<String, MessageBody> record, Acknowledgment acknowledgment){
+    protected void consumer(ConsumerRecord<String, MessageBody> record, Acknowledgment acknowledgment) {
 
     }
 
     /**
      * 批量消费
+     *
      * @param records
      * @param acknowledgment
      */
-    protected void batchConsumer(List<ConsumerRecord<String, MessageBody>> records, Acknowledgment acknowledgment){
+    protected void batchConsumer(List<ConsumerRecord<String, MessageBody>> records, Acknowledgment acknowledgment) {
 
     }
 }

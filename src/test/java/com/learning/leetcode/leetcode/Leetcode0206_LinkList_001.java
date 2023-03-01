@@ -26,7 +26,7 @@ public class Leetcode0206_LinkList_001 extends BaseTest {
     @Test
     public void run() {
         ListNode node = reverseList(ListNode.DEFAULT_NODE);
-        while (node != null){
+        while (node != null) {
             logger.info("result : {}", node);
             node = node.next;
         }
@@ -37,7 +37,7 @@ public class Leetcode0206_LinkList_001 extends BaseTest {
         // 3 -> 2 -> 1
         ListNode prev = null;
         ListNode cur = head;
-        while (cur != null){
+        while (cur != null) {
             ListNode next = cur.next;
             cur.next = prev;
             prev = cur;

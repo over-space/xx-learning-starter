@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 public class TimingWheelTest extends BaseTest {
 
     @Test
-    void test(){
+    void test() {
 
         SystemTimer systemTimer = new SystemTimer();
 

@@ -8,6 +8,7 @@ import com.learning.BaseTest;
  * 输入：nums = [-2,1,-3,4,-1,2,1,-5,4]
  * 输出：6
  * 解释：连续子数组 [4,-1,2,1] 的和最大，为 6 。
+ *
  * @author lifang
  * @since 2021/11/1
  */
@@ -15,7 +16,7 @@ public class Leetcode0053 extends BaseTest implements Testing {
 
     @Override
     public void test() {
-        int[] nums = {-2,1,-3,4,-1,1,1,-6,8};
+        int[] nums = {-2, 1, -3, 4, -1, 1, 1, -6, 8};
         maxSubArray(nums);
     }
 
@@ -23,9 +24,9 @@ public class Leetcode0053 extends BaseTest implements Testing {
         int max = nums[0];
         int dp = nums[0];
         for (int i = 1; i < nums.length; i++) {
-            if(dp <= 0){
+            if (dp <= 0) {
                 dp = nums[i];
-            }else{
+            } else {
                 dp = dp + nums[i];
             }
             max = Math.max(max, dp);

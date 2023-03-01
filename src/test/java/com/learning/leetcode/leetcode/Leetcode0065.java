@@ -14,7 +14,7 @@ public class Leetcode0065 extends BaseTest implements Testing {
 
     @Override
     public void test() {
-        int[] nums = {-1,0,1,2,-1,-4};
+        int[] nums = {-1, 0, 1, 2, -1, -4};
 
         threeSum(nums);
     }

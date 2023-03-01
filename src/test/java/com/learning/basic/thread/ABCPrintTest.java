@@ -18,7 +18,6 @@ public class ABCPrintTest extends BaseTest {
     private Condition cPrint = LOCK.newCondition();
 
 
-
     @Test
     protected void test() {
         runAsync(() -> {
@@ -28,9 +27,9 @@ public class ABCPrintTest extends BaseTest {
                 cPrint.await();
                 print("A");
                 bPrint.signal();
-            }catch (Exception e){
+            } catch (Exception e) {
 
-            }finally {
+            } finally {
                 LOCK.unlock();
             }
             return true;
@@ -43,9 +42,9 @@ public class ABCPrintTest extends BaseTest {
                 cPrint.await();
                 print("B");
                 cPrint.signal();
-            }catch (Exception e){
+            } catch (Exception e) {
 
-            }finally {
+            } finally {
                 LOCK.unlock();
             }
             return true;
@@ -57,9 +56,9 @@ public class ABCPrintTest extends BaseTest {
                 bPrint.await();
                 print("C");
                 aPrint.signal();
-            }catch (Exception e){
+            } catch (Exception e) {
 
-            }finally {
+            } finally {
                 LOCK.unlock();
             }
             return true;

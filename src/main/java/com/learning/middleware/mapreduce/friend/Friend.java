@@ -32,7 +32,7 @@ public class Friend {
 
         HadoopUtil.put(conf, "C:\\Users\\Lee\\Documents\\Workspace\\xx-learning-bigdata\\src\\main\\resources\\data\\friend.txt", "/users/root/friend.txt");
 
-        if(remainingArgs == null || remainingArgs.length == 0){
+        if (remainingArgs == null || remainingArgs.length == 0) {
             remainingArgs = new String[]{"/users/root/friend.txt", "/users/root/output/friend"};
         }
 
@@ -48,7 +48,7 @@ public class Friend {
         // output
         logger.info("output path : {}", remainingArgs[1]);
         Path outputPath = new Path(remainingArgs[1]);
-        if(outputPath.getFileSystem(conf).exists(outputPath)){
+        if (outputPath.getFileSystem(conf).exists(outputPath)) {
             // 存在先删除
             outputPath.getFileSystem(conf).delete(outputPath, true);
         }

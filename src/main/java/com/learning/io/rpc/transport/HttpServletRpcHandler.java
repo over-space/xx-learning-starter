@@ -42,7 +42,7 @@ public class HttpServletRpcHandler extends HttpServlet {
             // 将结果写回给客户端
             respContent = new RpcContent(new RpcResponse(result));
 
-        }catch (Exception e){
+        } catch (Exception e) {
             respContent = new RpcContent(new RpcResponse(e));
         }
 

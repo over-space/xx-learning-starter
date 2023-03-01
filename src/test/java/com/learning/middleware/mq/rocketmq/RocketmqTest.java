@@ -37,9 +37,9 @@ public class RocketmqTest extends BaseTest {
 
         for (int i = 0; i < 10; i++) {
             Message message;
-            if(i % 2 == 0){
+            if (i % 2 == 0) {
                 message = new Message("wula", "tag-a", "abc_" + i, ("hello rocketmq0 " + i).getBytes());
-            }else{
+            } else {
                 message = new Message("wula", "tag-b", "abc_" + i, ("hello rocketmq1 " + i).getBytes());
             }
             message.setWaitStoreMsgOK(true);
@@ -57,7 +57,7 @@ public class RocketmqTest extends BaseTest {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("test-consumer01");
         consumer.setNamesrvAddr(NAME_SRV_ADDR);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
-        consumer.subscribe("wula","*");
+        consumer.subscribe("wula", "*");
 
 
         // 并行

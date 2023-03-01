@@ -22,7 +22,7 @@ public class KafkaProducerService {
     }
 
 
-    public void producer(){
+    public void producer() {
         Map<String, Object> configs = new HashMap<>();
         configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.200.211:9092,192.168.200.212:9092,192.168.200.213:9092");
         configs.put(ProducerConfig.ACKS_CONFIG, "all");
@@ -34,14 +34,14 @@ public class KafkaProducerService {
         executorService.execute(() -> {
             int i = 0;
             while (true) {
-                if(i % 2 == 0) {
-                    producer.send(new ProducerRecord("msn-topic-1", "order1","hello kafka-" + i));
+                if (i % 2 == 0) {
+                    producer.send(new ProducerRecord("msn-topic-1", "order1", "hello kafka-" + i));
                     try {
                         TimeUnit.MILLISECONDS.sleep(300);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }else if(i > 1000){
+                } else if (i > 1000) {
                     break;
                 }
                 i++;
@@ -58,14 +58,14 @@ public class KafkaProducerService {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }else if(i > 1000){
+                } else if (i > 1000) {
                     break;
                 }
                 i++;
             }
         });
 
-        while(true){
+        while (true) {
             try {
                 TimeUnit.MILLISECONDS.sleep(600);
             } catch (InterruptedException e) {

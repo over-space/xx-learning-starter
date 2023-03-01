@@ -29,7 +29,7 @@ public class ServerRequestDecoder extends ByteToMessageDecoder {
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf buf, List<Object> list) throws Exception {
 
 
-        while (buf.readableBytes() >= RpcHeader.HEADER_LENGTH){
+        while (buf.readableBytes() >= RpcHeader.HEADER_LENGTH) {
             logger.info("{}, byteBuf readableBytes : {}", sourceName, buf.readableBytes());
 
             // 1. 读取header数据
@@ -41,7 +41,7 @@ public class ServerRequestDecoder extends ByteToMessageDecoder {
             logger.info("{}, rpc handler : {}", sourceName, header);
 
             // 2. 读取content数据
-            if((buf.readableBytes() - RpcHeader.HEADER_LENGTH) >= header.getContentLength()){
+            if ((buf.readableBytes() - RpcHeader.HEADER_LENGTH) >= header.getContentLength()) {
 
                 // 先移动指针，去掉header部门
                 logger.info("{}, readBytes before, readerIndex：{}, readableBytes : {}, contentLength : {}", sourceName, buf.readerIndex(), buf.readableBytes(), header.getContentLength());
@@ -50,14 +50,14 @@ public class ServerRequestDecoder extends ByteToMessageDecoder {
 
 
                 // 读取content
-                byte[] contentBytes = new byte[(int)header.getContentLength()];
+                byte[] contentBytes = new byte[(int) header.getContentLength()];
                 buf.readBytes(contentBytes);
 
                 RpcContent content = ByteUtils.toObject(contentBytes);
                 logger.info("{}, rpc interface content: {}", sourceName, content);
 
                 list.add(new MsgPack(header, content));
-            }else{
+            } else {
                 // buf数据不完整，在下一个buf中。
                 break;
             }

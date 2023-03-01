@@ -63,13 +63,13 @@ public class RocketmqTxMessageProducer implements MessageProducer {
             SendResult send = defaultMQProducer.send(new Message(msgRecordEntity.getTopic(), msgRecordEntity.getTags(), msgRecordEntity.getKey(), msgRecordEntity.getMsgBody().getBytes()));
 
             if (SendStatus.SEND_OK.equals(send.getSendStatus())) {
-                //发送成功一条就删一条消息，这样数据库表也不会变大
+                // 发送成功一条就删一条消息，这样数据库表也不会变大
                 msgRecordService.updateMsgStatus(msgRecordEntity.getMsgId(), MsgRecordEntity.MsgSendStatus.SEND_OK);
             } else {
-                //发送失败就等待下次重试，并将消息保留在表中, 通过定时任务重试
+                // 发送失败就等待下次重试，并将消息保留在表中, 通过定时任务重试
                 msgRecordService.updateMsgStatus(msgRecordEntity.getMsgId(), MsgRecordEntity.MsgSendStatus.UNSENT);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
     }

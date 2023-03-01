@@ -51,7 +51,7 @@ public class BIOServer {
 
 
         private void handle(InputStream in, OutputStream out) throws IOException {
-            //获得一个字符输入流
+            // 获得一个字符输入流
             BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
             writer.write("连接成功！\n");
@@ -63,7 +63,7 @@ public class BIOServer {
                 logger.info("收到客户端信息：{}", str);
 
                 if ("Bye".equalsIgnoreCase(str)) {
-                    //当客户端传来"Bye"代表断开连接
+                    // 当客户端传来"Bye"代表断开连接
                     writer.write("Bye\n");
                     writer.flush();
                     break;

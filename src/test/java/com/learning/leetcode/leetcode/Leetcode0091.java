@@ -9,7 +9,7 @@ import java.util.Set;
 public class Leetcode0091 extends BaseTest {
 
     @Test
-    public void run(){
+    public void run() {
         int num = numDecodings("12");
         System.out.println(num);
     }
@@ -26,17 +26,17 @@ public class Leetcode0091 extends BaseTest {
 
             Integer c = Integer.valueOf(chars[i]);
 
-            if(c == 0) continue;
+            if (c == 0) continue;
 
-            if(!sets.contains(c)){
+            if (!sets.contains(c)) {
                 sets.add(c);
                 num++;
             }
 
-            if(i + 1 < chars.length) {
+            if (i + 1 < chars.length) {
                 Integer n = c * 10 + Integer.valueOf(chars[i + 1]);
-                if(n >= 1 && n <= 26){
-                    if(!sets.contains(c)){
+                if (n >= 1 && n <= 26) {
+                    if (!sets.contains(c)) {
                         sets.add(c);
                         num++;
                     }

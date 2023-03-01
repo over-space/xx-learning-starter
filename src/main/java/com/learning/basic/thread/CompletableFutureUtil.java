@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class CompletableFutureUtil {
 
     /**
-     * @param allList 需要分页执行的数据
+     * @param allList  需要分页执行的数据
      * @param function 函数式接口
      */
     public static <T, R> List<R> submit(List<T> allList, Function<List<T>, R> function) {
@@ -30,7 +30,7 @@ public class CompletableFutureUtil {
 
     /**
      * @param pageSize 每页数量
-     * @param allList 需要分页执行的数据
+     * @param allList  需要分页执行的数据
      * @param function 函数式接口
      */
     public static <T, R> List<R> submit(int pageSize, List<T> allList, Function<List<T>, R> function) {
@@ -43,7 +43,7 @@ public class CompletableFutureUtil {
 
     /**
      * @param pageSize 每页数量
-     * @param allList 需要分页执行的数据
+     * @param allList  需要分页执行的数据
      * @param function 函数式接口
      */
     public static <T, R> void submit(int pageSize, List<T> allList, Function<List<T>, R> function, Consumer<R> consumer) {

@@ -32,7 +32,7 @@ public class FileIO {
 
         logger.info("type: {}", type);
 
-        switch (type){
+        switch (type) {
             case 48:
                 testBasicFileIO(path);
                 break;
@@ -44,26 +44,26 @@ public class FileIO {
     }
 
     private static void testBufferFileIO() {
-        try(BufferedOutputStream out = new BufferedOutputStream(Files.newOutputStream(Paths.get(path)), 1024)) {
+        try (BufferedOutputStream out = new BufferedOutputStream(Files.newOutputStream(Paths.get(path)), 1024)) {
             int i = 1;
             do {
                 Thread.sleep(10);
                 out.write("123456789\n".getBytes());
                 i++;
-            }while (i < 10000);
+            } while (i < 10000);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     private static void testBasicFileIO(String path) throws Exception {
-        try(FileOutputStream out = new FileOutputStream(path)) {
+        try (FileOutputStream out = new FileOutputStream(path)) {
             int i = 1;
             do {
                 Thread.sleep(10);
                 out.write("123456789\n".getBytes());
                 i++;
-            }while (i < 10000);
+            } while (i < 10000);
         }
     }
 

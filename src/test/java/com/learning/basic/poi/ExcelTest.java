@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class ExcelTest extends BaseTest {
 
     @Test
-    public void test() throws Exception{
+    public void test() throws Exception {
         read();
     }
 
@@ -36,9 +36,9 @@ public class ExcelTest extends BaseTest {
         List<String> columns = null;
 
         String fileName = "C:\\Users\\Lee\\OneDrive\\other\\a\\1.txt";
-        try(FileReader fileReader = new FileReader(fileName); BufferedReader bufferedReader = new BufferedReader(fileReader)){
+        try (FileReader fileReader = new FileReader(fileName); BufferedReader bufferedReader = new BufferedReader(fileReader)) {
             String line;
-            while ((line = bufferedReader.readLine()) != null){
+            while ((line = bufferedReader.readLine()) != null) {
 
                 JSONObject jsonObject = JSONObject.parseObject(line);
 
@@ -51,7 +51,7 @@ public class ExcelTest extends BaseTest {
 
                 columns.add(0, "full_name");
 
-                if(atomicInteger.get() == 0) {
+                if (atomicInteger.get() == 0) {
                     Row row = sheet.createRow(atomicInteger.get());
                     for (int i = 0; i < columns.size(); i++) {
                         Cell cell = row.createCell(i, CellType.STRING);

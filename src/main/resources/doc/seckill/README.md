@@ -1,4 +1,3 @@
-
 ## 秒杀系统
 
 ### 1.秒杀之MySQL实现
@@ -33,6 +32,7 @@
 解决方案：引入SingleThreadExecutor，相同/同类商品和线程数取模，通过线程池处理，减少高并发情况下redis发生自减操作。
 
 解决方案：
+
 ### 4.秒杀之Thread V1版本
 
 ![png 秒杀之MySQL实现](seckill-thread-v1.png)

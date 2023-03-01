@@ -47,14 +47,14 @@ public class EmployeeServiceImpl {
         return employeeRepository.searchSimilar(employeeES, new String[]{"tags"}, pageRequest);
     }
 
-    public SearchHits<EmployeeES> matchQuery(String field, Object value){
+    public SearchHits<EmployeeES> matchQuery(String field, Object value) {
         MatchQueryBuilder builder = QueryBuilders.matchQuery(field, value);
         NativeSearchQuery nativeSearchQuery = new NativeSearchQuery(builder);
         return elasticsearchRestTemplate.search(nativeSearchQuery, EmployeeES.class);
     }
 
 
-    public SearchHits<EmployeeES> matchQuery(String field, Object value, Pageable pageable){
+    public SearchHits<EmployeeES> matchQuery(String field, Object value, Pageable pageable) {
         MatchQueryBuilder builder = QueryBuilders.matchQuery(field, value);
         NativeSearchQuery nativeSearchQuery = new NativeSearchQuery(builder).setPageable(pageable);
         return elasticsearchRestTemplate.search(nativeSearchQuery, EmployeeES.class);

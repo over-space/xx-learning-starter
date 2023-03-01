@@ -34,7 +34,7 @@ public class DisruptorMessageProducer<T extends EventFactory, K extends EventHan
 
     }
 
-    private static <T extends EventFactory> Disruptor<T> getDisruptor(T event){
+    private static <T extends EventFactory> Disruptor<T> getDisruptor(T event) {
         ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("disruptor-thread-%s").build();
         return new Disruptor<>(event, 1024, threadFactory);
     }

@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
 
     @Resource
     private OrderRepository orderRepository;
@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
-    public void insert(OrderEntity orderEntity, OrderItemEntity orderItemEntity){
+    public void insert(OrderEntity orderEntity, OrderItemEntity orderItemEntity) {
         orderRepository.save(orderEntity);
 
         orderItemEntity.setOrderId(orderEntity.getId());
@@ -45,7 +45,8 @@ public class OrderServiceImpl implements OrderService{
     @Transactional
     public void deleteAll() {
         orderItemRepository.deleteAll();
-        orderRepository.deleteAll();;
+        orderRepository.deleteAll();
+        ;
     }
 
     @Override
@@ -61,7 +62,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<OrderLogEntity> findOrderLogList(){
+    public List<OrderLogEntity> findOrderLogList() {
         Iterable<OrderLogEntity> iterable = orderLogRepository.findAll();
         return Lists.newArrayList(iterable);
     }

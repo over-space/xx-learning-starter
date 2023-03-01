@@ -30,9 +30,9 @@ public class Sort {
         // 让框架知道是Window异构平台执行
         conf.set("mapreduce.app-submission.cross-platform", "true");
 
-        HadoopUtil.put(conf, "C:\\Users\\Lee\\Documents\\Workspace\\xx-learning-bigdata\\src\\main\\resources\\data\\sort-01.txt","/users/root/data/sort/sort-01.txt");
-        HadoopUtil.put(conf, "C:\\Users\\Lee\\Documents\\Workspace\\xx-learning-bigdata\\src\\main\\resources\\data\\sort-02.txt","/users/root/data/sort/sort-02.txt");
-        HadoopUtil.put(conf, "C:\\Users\\Lee\\Documents\\Workspace\\xx-learning-bigdata\\src\\main\\resources\\data\\sort-03.txt","/users/root/data/sort/sort-03.txt");
+        HadoopUtil.put(conf, "C:\\Users\\Lee\\Documents\\Workspace\\xx-learning-bigdata\\src\\main\\resources\\data\\sort-01.txt", "/users/root/data/sort/sort-01.txt");
+        HadoopUtil.put(conf, "C:\\Users\\Lee\\Documents\\Workspace\\xx-learning-bigdata\\src\\main\\resources\\data\\sort-02.txt", "/users/root/data/sort/sort-02.txt");
+        HadoopUtil.put(conf, "C:\\Users\\Lee\\Documents\\Workspace\\xx-learning-bigdata\\src\\main\\resources\\data\\sort-03.txt", "/users/root/data/sort/sort-03.txt");
 
         Job job = Job.getInstance(conf, "job-sort");
         job.setJarByClass(Sort.class);
@@ -46,7 +46,7 @@ public class Sort {
         // output
         logger.info("output path : {}", remainingArgs[1]);
         Path outputPath = new Path(remainingArgs[1]);
-        if(outputPath.getFileSystem(conf).exists(outputPath)){
+        if (outputPath.getFileSystem(conf).exists(outputPath)) {
             // 存在先删除
             outputPath.getFileSystem(conf).delete(outputPath, true);
         }

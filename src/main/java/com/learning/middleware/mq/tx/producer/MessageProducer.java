@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface MessageProducer {
 
-    default void sendAfterCommit(MsgRecordService msgRecordService, String topic, MessageBody messageBody){
+    default void sendAfterCommit(MsgRecordService msgRecordService, String topic, MessageBody messageBody) {
         // 消息入库
         MsgRecordEntity msgRecordEntity = msgRecordService.save(topic, messageBody);
 

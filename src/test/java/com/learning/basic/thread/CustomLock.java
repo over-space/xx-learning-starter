@@ -28,7 +28,7 @@ public class CustomLock extends AbstractQueuedSynchronizer {
             // 获取资源后sleep保持
             try {
                 TimeUnit.SECONDS.sleep(5);
-            } catch(InterruptedException ignore) {
+            } catch (InterruptedException ignore) {
 
             }
             lock.release(1);
@@ -39,7 +39,7 @@ public class CustomLock extends AbstractQueuedSynchronizer {
             // 保证线程2在线程1启动后执行
             try {
                 TimeUnit.SECONDS.sleep(1);
-            } catch(InterruptedException ignore) {
+            } catch (InterruptedException ignore) {
 
             }
             // 等待线程1 sleep结束释放资源

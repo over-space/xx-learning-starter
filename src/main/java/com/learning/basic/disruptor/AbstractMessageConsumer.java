@@ -15,7 +15,7 @@ public abstract class AbstractMessageConsumer<T extends EventFactory> implements
 
     protected String consumerName;
 
-    public AbstractMessageConsumer(String consumerName){
+    public AbstractMessageConsumer(String consumerName) {
         this.consumerName = consumerName;
     }
 

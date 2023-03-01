@@ -3,7 +3,7 @@ package com.learning.io.nio.sample;
 import java.nio.channels.Channel;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class DefaultChooseSelectorStrategy implements ChooseSelectorStrategy{
+public class DefaultChooseSelectorStrategy implements ChooseSelectorStrategy {
 
     private AtomicInteger xid;
     private SelectorThread[] selectorThreads;

@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Table(name = "t_msg_record")
 public class MsgRecordEntity implements Serializable {
 
-    public enum MsgSendStatus{
+    public enum MsgSendStatus {
         /**
          * 未发送至MQ
          */
@@ -40,7 +40,7 @@ public class MsgRecordEntity implements Serializable {
 
         private int value;
 
-        private MsgSendStatus(int value){
+        private MsgSendStatus(int value) {
             this.value = value;
         }
 
@@ -72,6 +72,7 @@ public class MsgRecordEntity implements Serializable {
 
     /**
      * 状态
+     *
      * @see MsgSendStatus
      */
     private Integer msgStatus;

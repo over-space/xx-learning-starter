@@ -31,7 +31,7 @@ public class KafkaTest extends BaseTest {
     }
 
     @Test
-    void testProducer(){
+    void testProducer() {
         for (int i = 0; i < 50; i++) {
             ProducerRecord record = new ProducerRecord<>(TOPIC, new MessageBody<>(UUID.randomUUID().toString(), "hello_kafka-" + i));
             kafkaTemplate.send(record);

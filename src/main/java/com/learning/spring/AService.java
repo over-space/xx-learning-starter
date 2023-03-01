@@ -30,10 +30,10 @@ public class AService {
 
 
     @Transactional(rollbackFor = Exception.class)
-    public void insertByTransactional(){
+    public void insertByTransactional() {
         try {
             insertA("insertByTransactional");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -47,7 +47,7 @@ public class AService {
         bRepository.save(b);
     }
 
-    public void insertByNonTransactional(){
+    public void insertByNonTransactional() {
         insertA("insertByNonTransactional");
 
         String currentTransactionName = TransactionSynchronizationManager.getCurrentTransactionName();
@@ -60,7 +60,7 @@ public class AService {
         bRepository.save(b);
     }
 
-    private void insertA(String name){
+    private void insertA(String name) {
         AEntity a = new AEntity();
         a.setName(name);
         a.setAge(20);

@@ -20,22 +20,23 @@ public final class ServiceFactory {
 
     public static synchronized ServiceFactory getServiceFactory(String moduleName) {
         serverMap = registerServerMap.get(moduleName);
-        if(serverMap == null){
+        if (serverMap == null) {
             registerServerMap.putIfAbsent(moduleName, new ConcurrentHashMap<>());
-            serverMap = registerServerMap.get(moduleName);;
+            serverMap = registerServerMap.get(moduleName);
+            ;
         }
         return registerCenter;
     }
 
-    public static void register(String interfaceName, Object server){
+    public static void register(String interfaceName, Object server) {
         serverMap.putIfAbsent(interfaceName, server);
     }
 
-    public static Object get(String interfaceName){
+    public static Object get(String interfaceName) {
         return serverMap.get(interfaceName);
     }
 
-    public static String getModuleName(){
+    public static String getModuleName() {
         // 动态获取项目
         return "xx-learning-starter";
     }
@@ -44,13 +45,13 @@ public final class ServiceFactory {
         return invoke(content.getName(), content.getMethodName(), content.getParameterTypes(), content.getArgs());
     }
 
-    public static Object invoke(String interfaceName, String methodName, Class<?>[] parameterTypes, Object[] args){
+    public static Object invoke(String interfaceName, String methodName, Class<?>[] parameterTypes, Object[] args) {
         Object server = getServiceFactory().get(interfaceName);
         MethodAccess methodAccess = getMethodAccess(server.getClass());
         return methodAccess.invoke(server, methodName, parameterTypes, args);
     }
 
-    private static MethodAccess getMethodAccess(Class clazz){
+    private static MethodAccess getMethodAccess(Class clazz) {
         return methodAccessMap.computeIfAbsent(clazz, key -> MethodAccess.get(clazz));
     }
 }

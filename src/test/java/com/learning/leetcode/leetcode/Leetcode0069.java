@@ -11,7 +11,7 @@ public class Leetcode0069 extends BaseTest implements Testing {
     @Override
     @org.testng.annotations.Test
     public void test() {
-        int[] nums = {98,100,99,98,90, 30, 20, 10, 5, 3, 1};
+        int[] nums = {98, 100, 99, 98, 90, 30, 20, 10, 5, 3, 1};
         //             0, 1, 2, 3, 4, 5, 6, 7, 8
         int index = peakIndexInMountainArray(nums);
         logger.info("index:{}", index);
@@ -21,23 +21,23 @@ public class Leetcode0069 extends BaseTest implements Testing {
         return peakIndexInMountainArray03(arr);
     }
 
-    private int peakIndexInMountainArray03(int[] arr){
+    private int peakIndexInMountainArray03(int[] arr) {
         int ans = 0;
         int left = 0;
         int right = arr.length - 1;
-        while (left <= right){
+        while (left <= right) {
             int mid = (left + right) / 2;
-            if(arr[mid] > arr[mid + 1]){
+            if (arr[mid] > arr[mid + 1]) {
                 ans = mid;
                 right = mid - 1;
-            }else{
+            } else {
                 left = mid + 1;
             }
         }
         return ans;
     }
 
-    private int peakIndexInMountainArray02(int[] arr){
+    private int peakIndexInMountainArray02(int[] arr) {
         // 1, 2, 4, 2, 1
         int n = arr.length;
         int left = 1, right = n - 2, ans = 0;
@@ -55,6 +55,7 @@ public class Leetcode0069 extends BaseTest implements Testing {
 
     /**
      * 枚举法
+     *
      * @param arr
      * @return
      */

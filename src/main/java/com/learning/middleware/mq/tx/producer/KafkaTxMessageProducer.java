@@ -61,12 +61,12 @@ public class KafkaTxMessageProducer implements MessageProducer {
                 ? new ProducerRecord<>(msgRecordEntity.getTopic(), msgRecordEntity.getKey(), messageBody)
                 : new ProducerRecord<>(msgRecordEntity.getTopic(), messageBody);
 
-        if(BooleanUtils.isTrue(messageBody.isTransaction())){
+        if (BooleanUtils.isTrue(messageBody.isTransaction())) {
             kafkaTemplate.executeInTransaction(kafkaOperations -> {
                 kafkaOperations.execute(producer -> producer.send(producerRecord));
                 return true;
             });
-        }else {
+        } else {
             kafkaTemplate.send(producerRecord);
         }
     }

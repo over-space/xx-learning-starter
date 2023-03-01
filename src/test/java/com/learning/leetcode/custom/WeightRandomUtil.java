@@ -22,12 +22,12 @@ public class WeightRandomUtil {
         initWeight(list);
     }
 
-    private void initWeight(List<Pair<String, Integer>> list){
+    private void initWeight(List<Pair<String, Integer>> list) {
         for (Pair<String, Integer> pair : list) {
 
             double lastWeight = this.weightMap.size() == 0 ? 0 : this.weightMap.lastKey();
 
-            //权重累加
+            // 权重累加
             this.weightMap.put(pair.getValue() + lastWeight, pair.getKey());
         }
     }

@@ -55,7 +55,7 @@ public class HbaseTest {
 
         tableDescriptorBuilder.setColumnFamily(columnFamilyDescriptorBuilder.build());
 
-        if(admin.tableExists(tableName)){
+        if (admin.tableExists(tableName)) {
             admin.disableTable(tableName);
             admin.deleteTable(tableName);
         }
@@ -64,7 +64,7 @@ public class HbaseTest {
     }
 
     @AfterTest
-    public void destory(){
+    public void destory() {
         try {
             table.close();
         } catch (IOException e) {

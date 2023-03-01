@@ -50,10 +50,10 @@ public class RocketmqTransactionTest extends BaseTest {
                 String mode = message.getUserProperty("mode");
                 // 执行本地事务
                 Integer type = (Integer) o;
-                if(type == 0){
+                if (type == 0) {
                     logger.info("UNKNOW: message: {}, type: {}, mode:{}", message, type, mode);
                     return LocalTransactionState.UNKNOW;
-                }else if(type == 1){
+                } else if (type == 1) {
                     logger.info("ROLLBACK_MESSAGE: message: {}, type: {}, mode:{}", message, type, mode);
                     return LocalTransactionState.ROLLBACK_MESSAGE;
                 }
@@ -71,7 +71,7 @@ public class RocketmqTransactionTest extends BaseTest {
 
                 messageExt.putUserProperty("count", (count + 1) + "");
 
-                if(count >= 3){
+                if (count >= 3) {
                     return LocalTransactionState.COMMIT_MESSAGE;
                 }
 
@@ -102,12 +102,12 @@ public class RocketmqTransactionTest extends BaseTest {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("test-consumer-tx01");
         consumer.setNamesrvAddr(NAME_SRV_ADDR);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
-        consumer.subscribe("topic_wang","*");
+        consumer.subscribe("topic_wang", "*");
         consumer.registerMessageListener(new MessageListenerConcurrently() {
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
 
-                msgs.forEach(msg-> System.out.println(msg));
+                msgs.forEach(msg -> System.out.println(msg));
 
                 return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             }

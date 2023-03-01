@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
  * @author 李芳
  * @since 2022/7/21
  */
-public class SystemTimer implements Timer{
+public class SystemTimer implements Timer {
 
     /**
      * 底层时间轮
@@ -34,7 +34,7 @@ public class SystemTimer implements Timer{
         this.timeWheel = new TimingWheel(1, 20, System.currentTimeMillis(), delayQueue);
         this.workerThreadPool = Executors.newFixedThreadPool(100);
         this.bossThreadPool = Executors.newFixedThreadPool(1);
-        //20ms推动一次时间轮运转
+        // 20ms推动一次时间轮运转
         this.bossThreadPool.submit(() -> {
             for (; ; ) {
                 this.advanceClock(20);
@@ -44,7 +44,7 @@ public class SystemTimer implements Timer{
 
     public void addTimerTaskEntry(TimingWheel.TimerTaskEntry entry) {
         if (!timeWheel.add(entry)) {
-            //已经过期了
+            // 已经过期了
             TimerTask timerTask = entry.getTimerTask();
             workerThreadPool.submit(timerTask);
         }
@@ -68,9 +68,9 @@ public class SystemTimer implements Timer{
         try {
             TimingWheel.TimerTaskList bucket = delayQueue.poll(timeout, TimeUnit.MILLISECONDS);
             if (bucket != null) {
-                //推进时间
+                // 推进时间
                 timeWheel.advanceLock(bucket.getExpiration());
-                //执行过期任务(包含降级)
+                // 执行过期任务(包含降级)
                 bucket.clear(this::addTimerTaskEntry);
             }
         } catch (InterruptedException e) {

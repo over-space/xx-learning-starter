@@ -17,7 +17,7 @@ public class SeckillThreadPool {
 
     private volatile static SeckillThreadPool threadPool;
 
-    protected SeckillThreadPool(int threadNum){
+    protected SeckillThreadPool(int threadNum) {
         this.threadNum = threadNum;
         this.executorServiceMap = new HashMap<>(threadNum);
     }
@@ -33,7 +33,7 @@ public class SeckillThreadPool {
         return threadPool;
     }
 
-    public ExecutorService getExecutorService(String goodsNum){
+    public ExecutorService getExecutorService(String goodsNum) {
         Integer threadHashKey = getThreadHashKey(goodsNum);
         return executorServiceMap.computeIfAbsent(threadHashKey, (key) -> {
             // 利用SingleThread的有序性
@@ -41,7 +41,7 @@ public class SeckillThreadPool {
         });
     }
 
-    public Integer getThreadHashKey(String goodsNum){
+    public Integer getThreadHashKey(String goodsNum) {
         return goodsNum.hashCode() % threadNum;
     }
 }

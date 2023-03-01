@@ -21,10 +21,10 @@ object ImplicitTest {
 
     println("-----------隐式转换类------------")
     // 1.
-    implicit class AAA[T](list:util.LinkedList[T]){
-      def foreach(f:(T) => Unit): Unit = {
+    implicit class AAA[T](list: util.LinkedList[T]) {
+      def foreach(f: (T) => Unit): Unit = {
         val iter = list.iterator()
-        while(iter.hasNext)f(iter.next())
+        while (iter.hasNext) f(iter.next())
       }
     }
     strList.foreach(println)
@@ -33,11 +33,12 @@ object ImplicitTest {
     implicit def a[T](list: util.ArrayList[T]) = {
       new KKK(list);
     }
+
     list.foreach(println)
 
   }
 
-class KKK[T](list: util.ArrayList[T]) {
+  class KKK[T](list: util.ArrayList[T]) {
     def foreach(f: (T) => Unit): Unit = {
       val iter: util.Iterator[T] = list.iterator()
       while (iter.hasNext) f(iter.next())

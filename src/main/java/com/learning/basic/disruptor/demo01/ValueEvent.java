@@ -3,7 +3,7 @@ package com.learning.basic.disruptor.demo01;
 import com.lmax.disruptor.EventFactory;
 
 public class ValueEvent {
-    
+
     private String value;
 
     /**

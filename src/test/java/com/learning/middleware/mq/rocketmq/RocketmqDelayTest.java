@@ -33,6 +33,7 @@ public class RocketmqDelayTest extends BaseTest {
 
     /**
      * 1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h
+     *
      * @throws Exception
      */
     @Test
@@ -44,9 +45,9 @@ public class RocketmqDelayTest extends BaseTest {
 
         for (int i = 0; i < 10; i++) {
             Message message;
-            if(i % 2 == 0){
+            if (i % 2 == 0) {
                 message = new Message("topic-dealy-01", "tag-a", "key-abc", ("hello rocketmq0 " + i).getBytes());
-            }else{
+            } else {
                 message = new Message("topic-dealy-01", "tag-b", "key-123", ("hello rocketmq1 " + i).getBytes());
             }
             message.setWaitStoreMsgOK(true);

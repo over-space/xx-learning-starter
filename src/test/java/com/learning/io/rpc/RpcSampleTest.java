@@ -19,7 +19,7 @@ public class RpcSampleTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(RpcSampleTest.class);
 
     @Test
-    void testRPC(){
+    void testRPC() {
         RpcServerStarter.asyncStartNettyServer();
 
         testRpcClient(RpcHeader.PROTOCOL_RPC);
@@ -32,7 +32,7 @@ public class RpcSampleTest extends BaseTest {
     }
 
     @Test
-    void testRpcByNettyHttp(){
+    void testRpcByNettyHttp() {
         RpcServerStarter.asyncStartHttpServer("127.0.0.1", 9090);
 
         testRpcClient(RpcHeader.PROTOCOL_NETTY_HTTP);
@@ -45,7 +45,7 @@ public class RpcSampleTest extends BaseTest {
     }
 
     @Test
-    void testRpcByHttp(){
+    void testRpcByHttp() {
         RpcServerStarter.asyncStartHttpServer("127.0.0.1", 9090);
 
         testRpcClient(RpcHeader.PROTOCOL_HTTP);
@@ -84,14 +84,14 @@ public class RpcSampleTest extends BaseTest {
                     Assertions.assertEquals(num2, 3);
 
                 }).exceptionally(e -> {
-                    if(e instanceof Exception){
+                    if (e instanceof Exception) {
                         logger.error(e.getMessage(), e);
                     }
                     return null;
                 });
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
 

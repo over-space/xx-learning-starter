@@ -30,12 +30,12 @@ public class SeckillTest extends BaseTest {
     }
 
     @Test
-    void init(){
+    void init() {
         goodsService.init();
     }
 
     @Test
-    void shop(){
+    void shop() {
         Random random = new Random();
         for (int i = 0; i < 100; i++) {
             goodsService.seckillByMySQL("" + random.nextInt(2000));
@@ -46,14 +46,14 @@ public class SeckillTest extends BaseTest {
     private StringRedisTemplate stringRedisTemplate;
 
     @Test
-    void testRedis(){
+    void testRedis() {
         ValueOperations<String, String> stringValueOperations = stringRedisTemplate.opsForValue();
         stringValueOperations.set("k1", "1");
     }
 
 
     @Test
-    void testDisruptor(){
+    void testDisruptor() {
         DisruptorMessageProducer.publish(new GoodsEvent(), Lists.newArrayList(new GoodsConsumer("consumer-1"), new GoodsConsumer("consumer-2")), (ringBuffer -> {
             for (int i = 1; i < 1000; i++) {
 

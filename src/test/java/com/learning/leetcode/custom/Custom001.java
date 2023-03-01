@@ -14,7 +14,7 @@ public class Custom001 extends BaseTest {
 
 
     @Test
-    public void test(){
+    public void test() {
         Integer[] result = find1(new int[]{2, 0, 1, 5, 2, 3, 1});
         StringJoiner joiner = new StringJoiner(",");
         for (Integer integer : result) {
@@ -24,12 +24,12 @@ public class Custom001 extends BaseTest {
     }
 
 
-    public Integer[] find1(int[] nums){
+    public Integer[] find1(int[] nums) {
         List<Integer> result = new ArrayList<>();
 
         for (int i = 0; i < nums.length; i++) {
             for (int j = i + 1; j < nums.length; j++) {
-                if(nums[i] == nums[j]){
+                if (nums[i] == nums[j]) {
                     result.add(nums[i]);
                     break;
                 }

@@ -79,10 +79,10 @@ public class ServerRequestHandler extends ChannelInboundHandlerAdapter {
                 logger.info("server channel read, interfaceName:{}, methodName:{}, args:{}, requestHeaderBytes: {}, requestContentBytes: {}",
                         content.getName(), content.getMethodName(), content.getArgs(), requestHeaderBytes.length, requestContentBytes.length);
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 RpcContent requestContent = new RpcContent(new RpcResponse(e));
                 requestContentBytes = ByteUtils.toByteArray(requestContent);
-                if(requestHeaderBytes == null){
+                if (requestHeaderBytes == null) {
                     RpcHeader requestHeader = RpcHeader.createHeader(RpcHeader.FLAG_SERVER, header.getRequestId(), requestContentBytes);
                     requestHeaderBytes = ByteUtils.toByteArray(requestHeader);
                 }

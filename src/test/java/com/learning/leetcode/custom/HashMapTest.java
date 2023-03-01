@@ -18,7 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class HashMapTest extends BaseTest {
 
     @Test
-    void testHashMapComputeIfAbsent(){
+    void testHashMapComputeIfAbsent() {
         Map<String, List<Integer>> map = new HashMap<>();
 
         // key对应值不存在，则执行lambda，并且将返回结果put到map中。
@@ -34,7 +34,7 @@ public class HashMapTest extends BaseTest {
     }
 
     @Test
-    void testHashMapComputeIfPresent(){
+    void testHashMapComputeIfPresent() {
         Map<String, List<Integer>> map = new HashMap<>();
 
         // key对应值不存在，则执行Function，并且将返回结果put到map中。
@@ -66,7 +66,7 @@ public class HashMapTest extends BaseTest {
     }
 
     @Test
-    void testTreeMap(){
+    void testTreeMap() {
         TreeMap<String, String> treeMap = new TreeMap<>();
 
         treeMap.put("1", "1");
@@ -89,13 +89,13 @@ public class HashMapTest extends BaseTest {
     }
 
     @Test
-    void test(){
+    void test() {
         test1();
         test2();
     }
 
     @Test
-    void test1(){
+    void test1() {
         long start = System.currentTimeMillis();
         Map<Integer, List<Integer>> map = new HashMap<>();
 
@@ -120,7 +120,7 @@ public class HashMapTest extends BaseTest {
     }
 
     @Test
-    void test2(){
+    void test2() {
         long start = System.currentTimeMillis();
         Map<Integer, List<Integer>> map = new HashMap<>();
 

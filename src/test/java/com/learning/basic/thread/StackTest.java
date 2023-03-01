@@ -12,24 +12,25 @@ public class StackTest {
 
     /**
      * -Xss512k
+     *
      * @param args
      */
     public static void main(String[] args) {
 
         try {
             a();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-        }catch (Error e){
+        } catch (Error e) {
             System.out.println("stack over flow");
         }
 
         System.out.println("------------------------------------------------------");
     }
 
-    private static void a(){
+    private static void a() {
         longAdder.increment();
-        System.out.println("-------------------------递归调用 " +  longAdder.intValue());
+        System.out.println("-------------------------递归调用 " + longAdder.intValue());
         a();
     }
 

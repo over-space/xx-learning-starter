@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * 消息补偿
+ *
  * @author 李芳
  * @since 2022/9/19
  */
@@ -31,7 +32,7 @@ public class TxMessageJob {
     private MsgRecordService msgRecordService;
 
     @Scheduled(cron = "0/15 * * * * ?")
-    public void run(){
+    public void run() {
         // 消息补偿，15秒执行一次
         logger.info("开始-定时执行事务消息补偿......");
 
@@ -40,10 +41,11 @@ public class TxMessageJob {
         LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now(), localTime);
         List<MsgRecordEntity> msgRecordEntities = msgRecordService.findByMsgStatus(MsgRecordEntity.MsgSendStatus.UNSENT, localDateTime);
 
-        if(CollectionUtils.isEmpty(msgRecordEntities)) {
+        if (CollectionUtils.isEmpty(msgRecordEntities)) {
             logger.info("无消息需要补偿。");
             return;
-        };
+        }
+        ;
 
         for (MsgRecordEntity msgRecordEntity : msgRecordEntities) {
             // messageProducer.send(msgRecordEntity);

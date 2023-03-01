@@ -23,7 +23,8 @@ public class TransactionMessageAdvice {
     private MessageProducer messageProducer;
 
     @Pointcut(value = "@annotation(com.learning.middleware.mq.tx.core.aop.annontion.TransactionalMessage)")
-    public void pointcutAround(){}
+    public void pointcutAround() {
+    }
 
     @Around(value = "pointcutAround()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
@@ -31,7 +32,7 @@ public class TransactionMessageAdvice {
             return point.proceed();
         } catch (Exception e) {
             throw e;
-        }finally {
+        } finally {
             messageProducer.sendMsgFromThreadLocal();
         }
     }

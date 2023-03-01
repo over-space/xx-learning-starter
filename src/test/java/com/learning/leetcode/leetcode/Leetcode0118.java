@@ -9,8 +9,9 @@ import java.util.List;
 /**
  * 118. 杨辉三角
  * 给定一个非负整数 numRows，生成「杨辉三角」的前 numRows 行。
- *
+ * <p>
  * 在「杨辉三角」中，每个数是它左上方和右上方的数的和。
+ *
  * @author lifang
  * @since 2021/11/4
  */
@@ -32,11 +33,11 @@ public class Leetcode0118 extends BaseTest implements Testing {
 
             for (int j = 0; j <= i; j++) {
 
-                if(j == 0 || i == j){
+                if (j == 0 || i == j) {
 
                     row.add(1);
 
-                }else{
+                } else {
 
                     row.add(last.get(j - 1) + last.get(j));
 
@@ -53,16 +54,16 @@ public class Leetcode0118 extends BaseTest implements Testing {
 
         List<List<Integer>> list = new ArrayList<>();
 
-        if(numRows == 0) return null;
+        if (numRows == 0) return null;
 
-        if(numRows >= 1){
+        if (numRows >= 1) {
             list.add(Arrays.asList(1));
         }
 
         List<Integer> last = null;
         for (int i = 2; i <= numRows; i++) {
 
-            if(last == null) {
+            if (last == null) {
                 last = list.get(i - 2);
             }
 
@@ -75,7 +76,7 @@ public class Leetcode0118 extends BaseTest implements Testing {
 
             row.add(1);
             list.add(row);
-            last =  row;
+            last = row;
         }
         return list;
     }

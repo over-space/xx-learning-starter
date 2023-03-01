@@ -41,11 +41,11 @@ public class RpcProxy {
 
 
                 final String moduleName = "xxxxxxx";// ServiceFactory.getModuleName();
-                if(ServiceFactory.getServiceFactory(moduleName).get(name) != null){
+                if (ServiceFactory.getServiceFactory(moduleName).get(name) != null) {
                     // local
                     // return InvokeUtil.invoke(ServiceFactory.getServiceFactory("module_xxxx"), content);
                     return ServiceFactory.getServiceFactory(moduleName).invoke(content);
-                }else {
+                } else {
                     // rpc
 
                     if (RpcHeader.PROTOCOL_RPC.equalsIgnoreCase(prototype)) {
@@ -60,14 +60,13 @@ public class RpcProxy {
                     }
                 }
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 logger.error(e.getMessage(), e);
                 completableFutureResponse.complete(new RpcResponse(e));
             }
-             return completableFutureResponse.get().getResult();
+            return completableFutureResponse.get().getResult();
         });
     }
-
 
 
     private static void invocationHandlerByRPC(RpcContent content, CompletableFuture<RpcResponse> completableFutureResponse) throws InterruptedException {
@@ -108,7 +107,7 @@ public class RpcProxy {
                         channel.pipeline()
                                 .addLast(new HttpClientCodec())
                                 .addLast(new HttpObjectAggregator(1024 * 512))
-                                .addLast(new ChannelInboundHandlerAdapter(){
+                                .addLast(new ChannelInboundHandlerAdapter() {
                                     @Override
                                     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
                                         // 接收服务端返回信息
@@ -127,7 +126,7 @@ public class RpcProxy {
         // 发送数据
         byte[] contentBytes = ByteUtils.toByteArray(content);
         DefaultFullHttpRequest request = new DefaultFullHttpRequest(HttpVersion.HTTP_1_0, HttpMethod.POST, "/", ByteUtils.copiedBuffer(contentBytes));
-        request.headers().set(HttpHeaderNames.CONTENT_LENGTH,contentBytes.length);
+        request.headers().set(HttpHeaderNames.CONTENT_LENGTH, contentBytes.length);
         client.writeAndFlush(request).sync();
     }
 
@@ -145,13 +144,13 @@ public class RpcProxy {
         ObjectOutputStream oout = new ObjectOutputStream(outputStream);
         oout.writeObject(content); // 发送数据
 
-        if(httpURLConnection.getResponseCode() == 200){
+        if (httpURLConnection.getResponseCode() == 200) {
             InputStream inputStream = httpURLConnection.getInputStream();
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-            RpcContent  response = (RpcContent)objectInputStream.readObject();
+            RpcContent response = (RpcContent) objectInputStream.readObject();
 
             completableFutureResponse.complete(response.getResponse());
-        }else{
+        } else {
             throw new RuntimeException("http response error, " + httpURLConnection.getResponseCode());
         }
     }

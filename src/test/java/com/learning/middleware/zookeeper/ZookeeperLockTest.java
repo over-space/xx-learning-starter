@@ -19,7 +19,6 @@ public class ZookeeperLockTest {
     public void test() throws InterruptedException {
 
 
-
         for (int i = 0; i < 20; i++) {
 
             ZookeeperLock zookeeperLock = new ZookeeperLock();

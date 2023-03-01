@@ -48,7 +48,7 @@
         </Root>
 
         <Root level="info">
-            <AppenderRef ref="kafka-logger" />
+            <AppenderRef ref="kafka-logger"/>
         </Root>
     </Loggers>
 </Configuration>

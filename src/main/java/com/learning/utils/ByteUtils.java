@@ -24,27 +24,27 @@ public final class ByteUtils {
         }
     }
 
-    public static synchronized  <T extends Serializable> T toObject(byte[] bytes) {
+    public static synchronized <T extends Serializable> T toObject(byte[] bytes) {
         byteArrayOutputStream.reset();
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
              ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)) {
-            return (T)objectInputStream.readObject();
+            return (T) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static synchronized  <T extends Serializable> T toObject(ByteBuf byteBuf) {
-        byte[] bytes =  new byte[byteBuf.readableBytes()];
+    public static synchronized <T extends Serializable> T toObject(ByteBuf byteBuf) {
+        byte[] bytes = new byte[byteBuf.readableBytes()];
         byteBuf.readBytes(bytes);
         return toObject(bytes);
     }
 
-    public static ByteBuf createDirectBuffer(int initialCapacity){
+    public static ByteBuf createDirectBuffer(int initialCapacity) {
         return PooledByteBufAllocator.DEFAULT.directBuffer(initialCapacity);
     }
 
-    public static ByteBuf createDirectBuffer(int initialCapacity, byte[]...byteList){
+    public static ByteBuf createDirectBuffer(int initialCapacity, byte[]... byteList) {
         ByteBuf byteBuf = PooledByteBufAllocator.DEFAULT.directBuffer(initialCapacity);
         for (byte[] bytes : byteList) {
             byteBuf.writeBytes(bytes);
@@ -52,7 +52,7 @@ public final class ByteUtils {
         return byteBuf;
     }
 
-    public static ByteBuf copiedBuffer(byte[] bytes){
+    public static ByteBuf copiedBuffer(byte[] bytes) {
         return Unpooled.copiedBuffer(bytes);
     }
 }

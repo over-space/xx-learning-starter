@@ -46,12 +46,12 @@ public class NIOSingleThread001 {
             // Set<SelectionKey> keys = selector.keys();
             // logger.info("keys.size : {}", keys.size());
             while (selector.select(50) > 0) {
-                Set<SelectionKey> selectionKeys = selector.selectedKeys();  //返回的有状态的fd集合
+                Set<SelectionKey> selectionKeys = selector.selectedKeys();  // 返回的有状态的fd集合
                 Iterator<SelectionKey> iter = selectionKeys.iterator();
 
                 while (iter.hasNext()) {
                     SelectionKey key = iter.next();
-                    iter.remove(); //set  不移除会重复循环处理
+                    iter.remove(); // set  不移除会重复循环处理
                     if (key.isAcceptable()) {
                         acceptHandler(key);
                     } else if (key.isReadable()) {
@@ -124,10 +124,10 @@ public class NIOSingleThread001 {
     private static void acceptHandler(SelectionKey key) {
         try {
             ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
-            SocketChannel client = ssc.accept(); //来啦，目的是调用accept接受客户端  fd7
+            SocketChannel client = ssc.accept(); // 来啦，目的是调用accept接受客户端  fd7
             client.configureBlocking(false);
 
-            ByteBuffer buffer = ByteBuffer.allocate(8192);  //前边讲过了
+            ByteBuffer buffer = ByteBuffer.allocate(8192);  // 前边讲过了
             client.register(selector, SelectionKey.OP_READ, buffer);
 
             logger.info("新客户端：{}", client.getRemoteAddress());

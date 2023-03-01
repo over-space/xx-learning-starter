@@ -66,9 +66,9 @@ public class TemperatureMapKey implements WritableComparable<TemperatureMapKey> 
     public int compareTo(TemperatureMapKey that) {
         // 按年月日排序
         int c1 = Integer.compare(this.year, that.year);
-        if(c1 == 0){
+        if (c1 == 0) {
             int c2 = Integer.compare(this.month, that.month);
-            if(c2 == 0){
+            if (c2 == 0) {
                 return Integer.compare(this.day, that.day);
             }
             return c2;

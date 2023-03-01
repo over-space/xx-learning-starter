@@ -15,7 +15,7 @@ public class HexTest extends BaseTest {
 
 
     @Test
-    public void test(){
+    public void test() {
         String result1 = fun(7, 5);
         logger.info("result: {}", result1);
 
@@ -26,13 +26,13 @@ public class HexTest extends BaseTest {
         logger.info("result: {}", result3);
     }
 
-    private String fun(int num, int hex){
+    private String fun(int num, int hex) {
         String result = "";
 
         int mod;
         int value = num;
 
-        while (value > 0){
+        while (value > 0) {
             mod = value % hex;
             value = value / hex;
 

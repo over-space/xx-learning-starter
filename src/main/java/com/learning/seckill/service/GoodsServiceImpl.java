@@ -22,7 +22,7 @@ import java.util.concurrent.Future;
  */
 @Service
 @Configurable
-public class GoodsServiceImpl implements GoodsService{
+public class GoodsServiceImpl implements GoodsService {
 
     @Value("${xx.learning.seckill.goods.name:'HUAWEI META 50 PRO'}")
     private String goodsName;
@@ -42,7 +42,7 @@ public class GoodsServiceImpl implements GoodsService{
     /**
      * 秒杀-mysql版本。
      * 流量直接打到数据库，压力都在数据库上。
-     *
+     * <p>
      * 优化点：引入redis，让redis先过滤掉一些无效流量。
      */
     @Override
@@ -55,7 +55,7 @@ public class GoodsServiceImpl implements GoodsService{
     /**
      * 秒杀-redis+mysql版本。
      * 先让redis扣减商品数量，返回值>=0表示有效流量，但此时redis也会遭受太多无效流量（redis中的库存已经变为负数）。
-     *
+     * <p>
      * 优化点：扣减为负数之后，将redis中key的结果改完字符串，通过异常捕获无效库存，减少redis扣减库存带来的损耗。
      */
     @Override
@@ -64,7 +64,7 @@ public class GoodsServiceImpl implements GoodsService{
         // 先将流量打到redis上。
         ValueOperations<String, String> strOps = stringRedisTemplate.opsForValue();
         Long decrement = strOps.decrement(goodsNum);
-        if(decrement >= 0) {
+        if (decrement >= 0) {
             // redis扣减成功了，再扣减数据库。
             goodsRepository.decrStoreByRedis(goodsNum);
             return true;
@@ -90,7 +90,7 @@ public class GoodsServiceImpl implements GoodsService{
             } else {
                 strOps.set(goodsNum, "none");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             // ignore
         }
         return false;
@@ -110,13 +110,13 @@ public class GoodsServiceImpl implements GoodsService{
             try {
                 ValueOperations<String, String> strOps = stringRedisTemplate.opsForValue();
                 Long decrement = strOps.decrement(goodsNum);
-                if(decrement >= 0){
+                if (decrement >= 0) {
                     return true;
-                }else{
+                } else {
                     // 避免下次redis继续执行减操作，提供redis性能。
                     strOps.set(goodsNum, "none");
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 //
             }
             return false;
@@ -124,7 +124,7 @@ public class GoodsServiceImpl implements GoodsService{
 
         try {
             Boolean success = future.get();
-            if(success){
+            if (success) {
                 goodsRepository.decrStoreByRedis(goodsNum);
                 return true;
             }
@@ -138,12 +138,13 @@ public class GoodsServiceImpl implements GoodsService{
     @Transactional(rollbackFor = Exception.class)
     public void init() {
         // 先清理一下
-        goodsRepository.deleteAll();;
+        goodsRepository.deleteAll();
+        ;
 
         ValueOperations<String, String> stringValueOperations = stringRedisTemplate.opsForValue();
 
         List<GoodsEntity> goodsList = new ArrayList<>(1000);
-        for (int i = 1000; i <= 1200; i++){
+        for (int i = 1000; i <= 1200; i++) {
 
             // redis初始化
             stringValueOperations.set(String.valueOf(i), store.toString());

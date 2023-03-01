@@ -9,7 +9,7 @@ import org.apache.hadoop.io.WritableComparator;
  */
 public class TemperatureSortComparator extends WritableComparator {
 
-    public TemperatureSortComparator(){
+    public TemperatureSortComparator() {
         super(TemperatureMapKey.class, true);
     }
 
@@ -21,9 +21,9 @@ public class TemperatureSortComparator extends WritableComparator {
         TemperatureMapKey k2 = ((TemperatureMapKey) b);
 
         int c1 = Integer.compare(k1.getYear(), k2.getYear());
-        if(c1 == 0){
+        if (c1 == 0) {
             int c2 = Integer.compare(k1.getMonth(), k2.getMonth());
-            if(c2 == 0){
+            if (c2 == 0) {
                 return -Integer.compare(k1.getTemperature(), k2.getTemperature());
             }
             return c2;

@@ -4,6 +4,7 @@ import java.util.Stack;
 
 /**
  * 实现一个特殊的栈，在实现栈的基本功能的基础上，再实现返回栈中最小元素的操作。
+ *
  * @author 李芳
  * @since 2022/9/29
  */
@@ -27,18 +28,18 @@ public class StackGetMin01 {
         this.stackData.push(newNum);
     }
 
-    public Integer pop(){
+    public Integer pop() {
         if (this.stackData.isEmpty()) {
             throw new RuntimeException("Your stack is empty.");
         }
         Integer value = this.stackData.pop();
-        if(value == this.getMin()){
+        if (value == this.getMin()) {
             this.stackMin.pop();
         }
         return value;
     }
 
-    public Integer getMin(){
+    public Integer getMin() {
         if (this.stackMin.isEmpty()) {
             throw new RuntimeException("Your stack is empty.");
         }

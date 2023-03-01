@@ -25,7 +25,7 @@ public class CService {
     private CRepository cRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public void insert(String lockKey){
+    public void insert(String lockKey) {
         CEntity c = new CEntity();
         c.setGmtModified(LocalDateTime.now());
         c.setGmtCreate(LocalDateTime.now());
@@ -43,11 +43,11 @@ public class CService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void update(Long id){
+    public void update(Long id) {
 
         CEntity c = cRepository.findById(id).orElse(null);
 
-        if(c == null) return;
+        if (c == null) return;
 
         Integer count = Optional.ofNullable(c.getModifiedCount()).orElse(0);
 

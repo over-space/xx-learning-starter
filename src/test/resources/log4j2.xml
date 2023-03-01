@@ -23,10 +23,10 @@
         <!--    </Policies>-->
         <!--</RollingFile>-->
 
-<!--        <Kafka name="kafka-logger" topic="topic-logger" enable="false">-->
-<!--            <Property name="bootstrap.servers">localhost:9091</Property>-->
-<!--            <PatternLayout pattern="${PATTERN}"/>-->
-<!--        </Kafka>-->
+        <!--        <Kafka name="kafka-logger" topic="topic-logger" enable="false">-->
+        <!--            <Property name="bootstrap.servers">localhost:9091</Property>-->
+        <!--            <PatternLayout pattern="${PATTERN}"/>-->
+        <!--        </Kafka>-->
 
     </Appenders>
 

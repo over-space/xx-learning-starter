@@ -20,32 +20,33 @@ public class ZookeeperClient implements Watcher {
 
     private CountDownLatch countDownLatch = new CountDownLatch(1);
 
-    private ZookeeperClient(){}
+    private ZookeeperClient() {
+    }
 
-    public static ZookeeperClient getInstance(){
+    public static ZookeeperClient getInstance() {
         return new ZookeeperClient();
     }
 
-    public static ZooKeeper getDefaultZooKeeper(){
+    public static ZooKeeper getDefaultZooKeeper() {
         return getInstance().connection("192.168.200.211:2181,192.168.200.212:2181,192.168.200.213:2181/bigdata", 5000);
     }
 
     @Override
     public void process(WatchedEvent event) {
         logger.info("触发创建ZookeeperClient#Watcher事件，stage: " + event.getState());
-        if(event.getState() == Event.KeeperState.SyncConnected){
+        if (event.getState() == Event.KeeperState.SyncConnected) {
             countDownLatch.countDown();
         }
     }
 
-    public ZooKeeper connection(String host, int timeout){
+    public ZooKeeper connection(String host, int timeout) {
         ZooKeeper zookeeper = null;
         try {
             zookeeper = new ZooKeeper(host, timeout, this);
 
             // 等待zookeeper连接成功
             countDownLatch.await();
-        }catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             logger.error(e.getMessage(), e);
         }
         return zookeeper;

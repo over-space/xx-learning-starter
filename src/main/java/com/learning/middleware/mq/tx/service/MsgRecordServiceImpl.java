@@ -19,7 +19,7 @@ import java.util.List;
  * @since 2022/9/13
  */
 @Service
-public class MsgRecordServiceImpl implements MsgRecordService{
+public class MsgRecordServiceImpl implements MsgRecordService {
 
     @Resource
     private MsgRecordRepository msgRecordRepository;
@@ -45,7 +45,7 @@ public class MsgRecordServiceImpl implements MsgRecordService{
 
     @Override
     public List<MsgRecordEntity> findByIds(List<Long> ids) {
-        if(CollectionUtils.isEmpty(ids)){
+        if (CollectionUtils.isEmpty(ids)) {
             return Collections.emptyList();
         }
         Iterable<MsgRecordEntity> iterable = msgRecordRepository.findAllById(ids);

@@ -37,7 +37,7 @@ public class ElasticsearchEmployeeTest {
     }
 
     @Test
-    void testSave(){
+    void testSave() {
         EmployeeES employee1 = new EmployeeES();
         employee1.setId(1L);
         employee1.setName("lisi");
@@ -59,13 +59,13 @@ public class ElasticsearchEmployeeTest {
     }
 
     @Test
-    void testFindByTags(){
+    void testFindByTags() {
         Page<EmployeeES> page = employeeService.findByTags("sun");
         logger.info("page: {}, pages:{}, total:{}", page, page.getTotalPages(), page.getTotalElements());
     }
 
     @Test
-    void testBatchSave(){
+    void testBatchSave() {
         Random random = new Random();
 
         List<EmployeeES> employeeList = new ArrayList<>(100);
@@ -76,7 +76,7 @@ public class ElasticsearchEmployeeTest {
             employee.setAge(random.nextInt(80));
             employeeList.add(employee);
 
-            if(employeeList.size() >= 100){
+            if (employeeList.size() >= 100) {
                 employeeService.batchSave(employeeList);
                 employeeList.clear();
             }
@@ -85,7 +85,7 @@ public class ElasticsearchEmployeeTest {
     }
 
     @Test
-    void testPage(){
+    void testPage() {
         for (int i = 0; i < 10; i++) {
             Page<EmployeeES> page = employeeService.page(i, 100);
             logger.info("page: {}, pages:{}, total:{}", page, page.getTotalPages(), page.getTotalElements());
@@ -96,7 +96,7 @@ public class ElasticsearchEmployeeTest {
     }
 
     @Test
-    public void testMatchQuery(){
+    public void testMatchQuery() {
 
         {
             SearchHits<EmployeeES> searchHits = employeeService.matchQuery("name", "wangwu");
@@ -130,7 +130,7 @@ public class ElasticsearchEmployeeTest {
     }
 
     @Test
-    void testGetById(){
+    void testGetById() {
         EmployeeES employeeES = employeeService.getById(1L);
         Assertions.assertNotNull(employeeES);
         logger.info("employeeES ：{}", employeeES);

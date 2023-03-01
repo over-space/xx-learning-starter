@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutionException;
 public class CompletableFutureUtilTest extends BaseTest {
 
     @Test
-    public void test(){
+    public void test() {
 
         CompletableFuture future1 = CompletableFuture.supplyAsync(() -> {
             sleep(3);
@@ -47,7 +47,7 @@ public class CompletableFutureUtilTest extends BaseTest {
         sleep(5);
     }
 
-    private static List<Integer> getEidList(){
+    private static List<Integer> getEidList() {
         return Arrays.asList(1);
     }
 }

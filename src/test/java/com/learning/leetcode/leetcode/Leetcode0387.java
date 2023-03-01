@@ -26,7 +26,7 @@ public class Leetcode0387 extends BaseTest implements Testing {
             map.put(n, map.getOrDefault(n, 0) + 1);
         }
         for (int i = 0; i < chars.length; i++) {
-            if(map.get(chars[i]) == 1){
+            if (map.get(chars[i]) == 1) {
                 return i;
             }
         }

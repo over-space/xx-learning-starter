@@ -34,9 +34,9 @@ public class FileTest extends BaseTest {
     }
 
     public void foreach(Stack<File> stack) {
-        while (!stack.isEmpty()){
+        while (!stack.isEmpty()) {
             File[] files = stack.pop().listFiles();
-            if(files != null) {
+            if (files != null) {
                 for (File file : files) {
                     if (file.isDirectory()) {
                         stack.push(file);
@@ -53,7 +53,7 @@ public class FileTest extends BaseTest {
      */
     public void recursive(File rootFile) {
         File[] files = rootFile.listFiles();
-        if(files != null) {
+        if (files != null) {
             for (File file : files) {
                 if (file.isDirectory()) {
                     recursive(file);

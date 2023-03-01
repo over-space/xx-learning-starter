@@ -162,15 +162,15 @@ public class NettyTest extends BaseTest {
 
         Bootstrap bootstrap = new Bootstrap();
         Channel client = bootstrap.group(group)
-            .channel(NioSocketChannel.class)
-            .handler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                protected void initChannel(SocketChannel client) throws Exception {
-                    client.pipeline().addLast(new MyNettyInHandler());
-                }
-            }).connect(new InetSocketAddress("127.0.0.1", 9090))
-            .sync()
-            .channel();
+                .channel(NioSocketChannel.class)
+                .handler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    protected void initChannel(SocketChannel client) throws Exception {
+                        client.pipeline().addLast(new MyNettyInHandler());
+                    }
+                }).connect(new InetSocketAddress("127.0.0.1", 9090))
+                .sync()
+                .channel();
 
         ByteBuf byteBuf = Unpooled.copiedBuffer("hello netty server......\n".getBytes());
         ChannelFuture channelFuture = client.writeAndFlush(byteBuf);
@@ -186,15 +186,15 @@ public class NettyTest extends BaseTest {
         ServerBootstrap bootstrap = new ServerBootstrap();
 
         Channel server = bootstrap.group(group, group)
-            .channel(NioServerSocketChannel.class)
-            .childHandler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                protected void initChannel(SocketChannel client) throws Exception {
-                    client.pipeline().addLast(new MyNettyInHandler());
-                }
-            }).bind(9090)
-            .sync()
-            .channel();
+                .channel(NioServerSocketChannel.class)
+                .childHandler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    protected void initChannel(SocketChannel client) throws Exception {
+                        client.pipeline().addLast(new MyNettyInHandler());
+                    }
+                }).bind(9090)
+                .sync()
+                .channel();
 
         server.closeFuture().sync();
     }
@@ -205,17 +205,17 @@ public class NettyTest extends BaseTest {
 
         Bootstrap bootstrap = new Bootstrap();
         Channel client = bootstrap.group(group)
-            .channel(NioSocketChannel.class)
-            .handler(new ChannelInitializer<NioSocketChannel>() {
-                @Override
-                protected void initChannel(NioSocketChannel client) throws Exception {
-                    // 设置hander,接收server信息
-                    logger.info("netty client : 接收服务端消息.....");
-                    client.pipeline().addLast(new ClientResponse());
-                }
-            }).connect(new InetSocketAddress("127.0.0.1", 9090))
-            .sync()
-            .channel();
+                .channel(NioSocketChannel.class)
+                .handler(new ChannelInitializer<NioSocketChannel>() {
+                    @Override
+                    protected void initChannel(NioSocketChannel client) throws Exception {
+                        // 设置hander,接收server信息
+                        logger.info("netty client : 接收服务端消息.....");
+                        client.pipeline().addLast(new ClientResponse());
+                    }
+                }).connect(new InetSocketAddress("127.0.0.1", 9090))
+                .sync()
+                .channel();
 
         ByteBuf byteBuf = ByteBufAllocator.DEFAULT.directBuffer(32, 512);
         byteBuf.writeBytes("hello netty server".getBytes());
@@ -229,16 +229,16 @@ public class NettyTest extends BaseTest {
         NioEventLoopGroup group = new NioEventLoopGroup(1);
         ServerBootstrap bootstrap = new ServerBootstrap();
         Channel server = bootstrap.group(group, group)
-            .channel(NioServerSocketChannel.class)
-            .childHandler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                protected void initChannel(SocketChannel client) throws Exception {
-                    logger.info("netty server : 接收客户端消息.....");
-                    client.pipeline().addLast(new ServerResponse());
-                }
-            }).bind(9090)
-            .sync()
-            .channel();
+                .channel(NioServerSocketChannel.class)
+                .childHandler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    protected void initChannel(SocketChannel client) throws Exception {
+                        logger.info("netty server : 接收客户端消息.....");
+                        client.pipeline().addLast(new ServerResponse());
+                    }
+                }).bind(9090)
+                .sync()
+                .channel();
         server.closeFuture().sync();
     }
 

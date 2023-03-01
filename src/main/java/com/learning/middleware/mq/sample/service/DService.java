@@ -28,7 +28,7 @@ public class DService {
     private String topic;
 
     @Transactional
-    public void save(){
+    public void save() {
         DEntity entity = new DEntity();
         entity.setName("b_" + ThreadLocalRandom.current().nextLong(0, 999999999));
         entity.setCreatedDate(LocalDateTime.now());
@@ -39,7 +39,7 @@ public class DService {
     }
 
     @TransactionalMessage
-    public void save2(){
+    public void save2() {
         DEntity entity = new DEntity();
         entity.setName("b_" + ThreadLocalRandom.current().nextLong(0, 999999999));
         entity.setCreatedDate(LocalDateTime.now());

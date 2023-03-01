@@ -12,7 +12,7 @@ import java.util.*;
 public class LRUCacheTest extends BaseTest {
 
     @Test
-    public void testLRU(){
+    public void testLRU() {
 
         LRUCache<Integer, Integer> lruCache = new LRUCache<>(10);
 
@@ -44,7 +44,7 @@ public class LRUCacheTest extends BaseTest {
     }
 
     @Test
-    public void testMap(){
+    public void testMap() {
         Map<String, List<String>> map = new HashMap<>();
 
         List<String> list = map.computeIfAbsent("k1", key -> new ArrayList<>());
@@ -71,15 +71,15 @@ public class LRUCacheTest extends BaseTest {
         logger.info("map : {}", map);
     }
 
-    private void print(LRUCache<Integer, Integer> lruCache){
+    private void print(LRUCache<Integer, Integer> lruCache) {
 
         LRUCache.Node<Integer, Integer> head = lruCache.getDoublyLinkedList().getHead();
 
         StringBuffer stringBuffer = new StringBuffer();
-        while (head != null){
+        while (head != null) {
             head = head.getNext();
 
-            if(head != null) {
+            if (head != null) {
                 stringBuffer.append(head.getValue()).append(", ");
             }
         }

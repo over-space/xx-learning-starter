@@ -37,7 +37,7 @@ public final class RpcServerStarter {
             logger.info("********************************************************************************************");
             logger.info("*** start rpc by http server....");
             logger.info("********************************************************************************************");
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
     }
@@ -79,7 +79,7 @@ public final class RpcServerStarter {
 
     }
 
-    public static void asyncStartNettyServer(){
+    public static void asyncStartNettyServer() {
         try {
             new Thread(() -> {
                 startNettyServer();
@@ -87,12 +87,12 @@ public final class RpcServerStarter {
             logger.info("********************************************************************************************");
             logger.info("*** start rpc by netty server....");
             logger.info("********************************************************************************************");
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
     }
 
-    public static void startNettyServer(){
+    public static void startNettyServer() {
         try {
             initServerRegisterCenter();
 
@@ -114,7 +114,7 @@ public final class RpcServerStarter {
                     .channel();
 
             server.closeFuture().sync();
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
     }

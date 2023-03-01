@@ -46,7 +46,7 @@ public class WordCount {
         // output
         logger.info("output path : {}", remainingArgs[1]);
         Path outputPath = new Path(remainingArgs[1]);
-        if(outputPath.getFileSystem(conf).exists(outputPath)){
+        if (outputPath.getFileSystem(conf).exists(outputPath)) {
             // 存在先删除
             outputPath.getFileSystem(conf).delete(outputPath, true);
         }

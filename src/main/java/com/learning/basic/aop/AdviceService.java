@@ -15,7 +15,7 @@ public class AdviceService {
 
 
     @Advice
-    public void test(){
+    public void test() {
         logger.info("=====================================");
     }
 

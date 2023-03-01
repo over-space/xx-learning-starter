@@ -71,14 +71,14 @@ public class ZookeeperLock implements Lock, Watcher {
 
             final String currentNode = StringUtils.substringAfterLast(CURRENT_LOCK, PATH_DELIMITER);
 
-            //获取孩子结点（锁结点）
+            // 获取孩子结点（锁结点）
             // TreeSet<String> nodeList = zookeeper.getChildren(ROOT_PATH, false).stream()
             //         .sorted()
             //         .collect(Collectors.toCollection(TreeSet::new));
-            //创建孩子集合并添加到有序Set中
+            // 创建孩子集合并添加到有序Set中
             List<String> children = zookeeper.getChildren(ROOT_PATH, false);
             SortedSet<String> nodeList = new TreeSet<>();
-            for (String child : children){
+            for (String child : children) {
                 nodeList.add(child);
             }
 
@@ -128,14 +128,14 @@ public class ZookeeperLock implements Lock, Watcher {
     @Override
     public void process(WatchedEvent watchedEvent) {
         System.out.println("===========================" + countDownLatch);
-        if(countDownLatch != null){
+        if (countDownLatch != null) {
             countDownLatch.countDown();
         }
     }
 
     private void waitForLock(String preNode) {
         try {
-            //监听上一个比自己小的结点
+            // 监听上一个比自己小的结点
             Stat stat = zookeeper.exists(preNode, true);
             if (stat != null) {
                 logger.info("等待获取锁：path: {}, currentLock:{}", preNode, CURRENT_LOCK);
@@ -144,7 +144,7 @@ public class ZookeeperLock implements Lock, Watcher {
             }
         } catch (KeeperException | InterruptedException e) {
             throw new RuntimeException(e);
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("锁等待异常，path:{}, msg:{}", preNode, e.getMessage());
         }
     }

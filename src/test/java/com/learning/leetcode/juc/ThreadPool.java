@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class ThreadPool {
 
     @Test
-    public void test(){
+    public void test() {
 
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(2, 2,
                 10L, TimeUnit.MILLISECONDS,

@@ -8,20 +8,21 @@ import java.util.Arrays;
 /**
  * 211. 添加与搜索单词 - 数据结构设计
  * 请你设计一个数据结构，支持 添加新单词 和 查找字符串是否与任何先前添加的字符串匹配 。
- *
+ * <p>
  * 实现词典类 WordDictionary ：
- *
+ * <p>
  * WordDictionary() 初始化词典对象
  * void addWord(word) 将 word 添加到数据结构中，之后可以对它进行匹配
  * bool search(word) 如果数据结构中存在字符串与word 匹配，则返回 true ；否则，返回 false 。word 中可能包含一些 '.' ，每个. 都可以表示任何一个字母。
- *
+ * <p>
  * 来源：力扣（LeetCode）
  * 链接：https://leetcode-cn.com/problems/design-add-and-search-words-data-structure
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+ *
  * @author lifang
  * @since 2021/10/19
  */
-public class Leetcode0211_trie extends BaseTest implements Testing{
+public class Leetcode0211_trie extends BaseTest implements Testing {
 
     @Override
     public void test() {
@@ -51,10 +52,10 @@ public class Leetcode0211_trie extends BaseTest implements Testing{
             return search(word, 0, this.root);
         }
 
-        private boolean search(String word, int index, Trie node){
-           if(index == word.length()){
-               return node.isEnd;
-           }
+        private boolean search(String word, int index, Trie node) {
+            if (index == word.length()) {
+                return node.isEnd;
+            }
             char ch = word.charAt(index);
             if (Character.isLetter(ch)) {
                 // 字母
@@ -63,7 +64,7 @@ public class Leetcode0211_trie extends BaseTest implements Testing{
                 if (child != null && search(word, index + 1, child)) {
                     return true;
                 }
-            }else{
+            } else {
                 for (int i = 0; i < 26; i++) {
                     Trie child = node.children[i];
                     if (child != null && search(word, index + 1, child)) {
@@ -75,7 +76,7 @@ public class Leetcode0211_trie extends BaseTest implements Testing{
         }
     }
 
-    class Trie{
+    class Trie {
         private Trie[] children;
         private boolean isEnd;
 
@@ -106,12 +107,12 @@ public class Leetcode0211_trie extends BaseTest implements Testing{
             return startsWithPrefix(prefix) != null;
         }
 
-        private Trie startsWithPrefix(String prefix){
+        private Trie startsWithPrefix(String prefix) {
             Trie node = this;
             for (int i = 0; i < prefix.length(); i++) {
                 char ch = prefix.charAt(i);
                 int index = ch - 'a';
-                if((node = node.children[index]) == null){
+                if ((node = node.children[index]) == null) {
                     return null;
                 }
             }

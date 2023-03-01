@@ -35,20 +35,20 @@ public class Custom002 extends BaseTest {
     }
 
 
-    static class ReorderExample{
+    static class ReorderExample {
 
         private int a = 0;
 
         private boolean flag = false;
 
-        public void writer(){
+        public void writer() {
             this.a = 1;
             this.flag = true;
         }
 
-        public void reader(){
-            if(flag){
-                if(0 == (a * a)){
+        public void reader() {
+            if (flag) {
+                if (0 == (a * a)) {
                     System.out.println("程序重排序了，a : " + a);
                 }
             }

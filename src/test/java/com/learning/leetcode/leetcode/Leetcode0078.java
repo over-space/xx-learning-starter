@@ -37,7 +37,7 @@ public class Leetcode0078 extends BaseTest implements Testing {
     }
 
     @Test
-    public void a(){
+    public void a() {
         for (int i = 0; i < 20; i++) {
             String bin = Integer.toBinaryString(i);
 

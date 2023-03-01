@@ -20,7 +20,7 @@ public class ThreadPollTest extends BaseTest {
 
 
     @BeforeAll
-    public static void beforeAll(){
+    public static void beforeAll() {
         threadPoolExecutor = new ThreadPoolExecutor(3, 5,
                 60, TimeUnit.SECONDS,
                 new LinkedBlockingQueue<>(10),
@@ -29,7 +29,7 @@ public class ThreadPollTest extends BaseTest {
     }
 
     @Test
-    public void test(){
+    public void test() {
         IntStream.range(1, 30).parallel().forEach(num -> {
             threadPoolExecutor.execute(() -> {
                 sleep(1);

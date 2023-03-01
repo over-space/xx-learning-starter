@@ -67,7 +67,7 @@ public class ZookeeperTest {
         String lockKey = "/zk_lock";
 
         Stat exists = zookeeper.exists(lockKey, false);
-        if(exists == null) {
+        if (exists == null) {
             zookeeper.create(lockKey, "".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
         }
 

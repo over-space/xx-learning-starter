@@ -33,9 +33,9 @@ public class Leetcode0056 extends BaseTest {
             int right = intervals[i][1];
             int mergeResultSize = mergeResult.size();
 
-            if(mergeResult.isEmpty() || mergeResult.get(mergeResultSize - 1)[1] < left) {
+            if (mergeResult.isEmpty() || mergeResult.get(mergeResultSize - 1)[1] < left) {
                 mergeResult.add(new int[]{left, right});
-            }else{
+            } else {
                 mergeResult.get(mergeResultSize - 1)[1] = Math.max(mergeResult.get(mergeResultSize - 1)[1], right);
             }
         }

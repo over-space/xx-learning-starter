@@ -72,9 +72,9 @@ public class TimingWheel {
             TimerTaskList bucket = buckets[index];
             bucket.addTask(entry);
 
-            //设置bucket 过期时间
+            // 设置bucket 过期时间
             if (bucket.setExpiration(virtualId * tickMs)) {
-                //设好过期时间的bucket需要入队
+                // 设好过期时间的bucket需要入队
                 delayQueue.offer(bucket);
                 return true;
             }
@@ -184,11 +184,11 @@ public class TimingWheel {
         public boolean addTask(TimerTaskEntry entry) {
             boolean done = false;
             while (!done) {
-                //如果TimerTaskEntry已经在别的list中就先移除,同步代码块外面移除,避免死锁,一直到成功为止
+                // 如果TimerTaskEntry已经在别的list中就先移除,同步代码块外面移除,避免死锁,一直到成功为止
                 entry.remove();
                 synchronized (this) {
                     if (entry.timedTaskList == null) {
-                        //加到链表的末尾
+                        // 加到链表的末尾
                         entry.timedTaskList = this;
                         TimerTaskEntry tail = root.prev;
                         entry.prev = tail;

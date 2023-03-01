@@ -22,16 +22,16 @@ public class AIOServer {
 
 
     public static void main(String[] args) throws Exception {
-        //首先打开一个ServerSocket通道并获取AsynchronousServerSocketChannel实例：
+        // 首先打开一个ServerSocket通道并获取AsynchronousServerSocketChannel实例：
         AsynchronousServerSocketChannel serverSocketChannel = AsynchronousServerSocketChannel.open();
 
-        //绑定需要监听的端口到serverSocketChannel:
+        // 绑定需要监听的端口到serverSocketChannel:
         serverSocketChannel.bind(new InetSocketAddress(PORT));
 
-        //实现一个CompletionHandler回调接口handler，
-        //之后需要在handler的实现中处理连接请求和监听下一个连接、数据收发，以及通信异常。
+        // 实现一个CompletionHandler回调接口handler，
+        // 之后需要在handler的实现中处理连接请求和监听下一个连接、数据收发，以及通信异常。
         CompletionHandler<AsynchronousSocketChannel, Object> handler = new CompletionHandler<AsynchronousSocketChannel,
-                        Object>() {
+                Object>() {
             @Override
             public void completed(final AsynchronousSocketChannel result, final Object attachment) {
                 // 继续监听下一个连接请求

@@ -27,12 +27,12 @@ public class ClientFactory {
         return factory;
     }
 
-    public static NioSocketChannel getClient(InetSocketAddress address){
+    public static NioSocketChannel getClient(InetSocketAddress address) {
         ClientPool clientPool = clientList.get(address);
-        if(clientPool == null){
+        if (clientPool == null) {
             synchronized (clientList) {
                 clientPool = clientList.get(address);
-                if(clientPool == null) {
+                if (clientPool == null) {
                     clientList.putIfAbsent(address, new ClientPool(poolSize));
                     clientPool = clientList.get(address);
                 }
@@ -41,13 +41,13 @@ public class ClientFactory {
 
         int rand = ThreadLocalRandom.current().nextInt(poolSize);
 
-        if( clientPool.getClientList()[rand] != null && clientPool.getClientList()[rand].isActive()){
+        if (clientPool.getClientList()[rand] != null && clientPool.getClientList()[rand].isActive()) {
             return clientPool.getClientList()[rand];
-        }else {
-            synchronized (clientPool.getLocks()[rand]){
-                if( clientPool.getClientList()[rand] != null && clientPool.getClientList()[rand].isActive()) {
+        } else {
+            synchronized (clientPool.getLocks()[rand]) {
+                if (clientPool.getClientList()[rand] != null && clientPool.getClientList()[rand].isActive()) {
                     return clientPool.getClientList()[rand];
-                }else {
+                } else {
                     return clientPool.getClientList()[rand] = createClient(address);
                 }
             }
@@ -55,7 +55,7 @@ public class ClientFactory {
     }
 
     private static NioSocketChannel createClient(InetSocketAddress address) {
-        //基于 netty 的客户端创建方式
+        // 基于 netty 的客户端创建方式
         NioEventLoopGroup clientWorker = new NioEventLoopGroup(10);
         Bootstrap bs = new Bootstrap();
         ChannelFuture connect = bs.group(clientWorker)
@@ -69,7 +69,7 @@ public class ClientFactory {
                     }
                 }).connect(address);
         try {
-            NioSocketChannel client = (NioSocketChannel)connect.sync().channel();
+            NioSocketChannel client = (NioSocketChannel) connect.sync().channel();
             return client;
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -5,6 +5,7 @@ import java.util.Map;
 
 /**
  * 淘汰最少使用算法
+ *
  * @author lifang
  * @since 2021/12/8
  */
@@ -26,14 +27,14 @@ public class LRUCache<K, V> {
      */
     private DoublyLinkedList<K, V> doublyLinkedList;
 
-    public LRUCache(int cacheSize){
+    public LRUCache(int cacheSize) {
         this.cacheSize = cacheSize;
         this.cacheMap = new HashMap<>(cacheSize);
         this.doublyLinkedList = new DoublyLinkedList<>();
     }
 
-    public V get(K key){
-        if(!cacheMap.containsKey(key)){
+    public V get(K key) {
+        if (!cacheMap.containsKey(key)) {
             return null;
         }
 
@@ -48,8 +49,8 @@ public class LRUCache<K, V> {
         return node.value;
     }
 
-    public void put(K key, V value){
-        if(cacheMap.containsKey(key)){
+    public void put(K key, V value) {
+        if (cacheMap.containsKey(key)) {
             // 更新
             Node<K, V> node = cacheMap.get(key);
 
@@ -60,11 +61,11 @@ public class LRUCache<K, V> {
             doublyLinkedList.remove(node);
 
             doublyLinkedList.addHead(node);
-        }else{
+        } else {
 
             Node<K, V> node = new Node<>(key, value);
 
-            if(cacheMap.size() == cacheSize){
+            if (cacheMap.size() == cacheSize) {
                 // 淘汰最近最少使用
                 Node last = doublyLinkedList.getLast();
 
@@ -75,7 +76,7 @@ public class LRUCache<K, V> {
                 // 再添加
                 cacheMap.put(key, node);
                 doublyLinkedList.addHead(node);
-            }else{
+            } else {
                 cacheMap.put(key, node);
 
                 doublyLinkedList.addHead(node);
@@ -111,7 +112,7 @@ public class LRUCache<K, V> {
 
     //==================================================================================================================
 
-    static class Node<K, V>{
+    static class Node<K, V> {
 
         /**
          * 缓存的key
@@ -174,13 +175,13 @@ public class LRUCache<K, V> {
         }
     }
 
-    static class DoublyLinkedList<K, V>{
+    static class DoublyLinkedList<K, V> {
 
         private Node<K, V> head;
 
         private Node<K, V> tail;
 
-        public DoublyLinkedList(){
+        public DoublyLinkedList() {
             // 头、尾节点为空节点
             this.head = new Node<>();
             this.tail = new Node<>();
@@ -190,14 +191,14 @@ public class LRUCache<K, V> {
             this.tail.setPrev(this.head);
         }
 
-        public void remove(Node<K, V> node){
+        public void remove(Node<K, V> node) {
             Node prev = node.getPrev();
             Node next = node.getNext();
 
-            if(prev != null) {
+            if (prev != null) {
                 prev.setNext(next);
             }
-            if(next != null) {
+            if (next != null) {
                 next.setPrev(prev);
             }
             node.setPrev(null);
